@@ -36,6 +36,7 @@ spanning-tree mode pvst
 !
 interface FastEthernet0/0
  ip address 192.168.1.254 255.255.255.0
+ ip access-group tikweb out
  duplex auto
  speed auto
 !
@@ -71,7 +72,7 @@ ip access-list extended tikweb
  permit tcp any host 192.168.1.1 eq www
  permit tcp any host 192.168.1.1 eq 443
  permit ip 192.168.2.0 0.0.0.255 host 192.168.1.1
- deny ip any 192.168.1.0 0.0.0.255
+ deny ip any host 192.168.1.1
 !
 !
 !
