@@ -1,0 +1,9 @@
+R-Tel
+
+permit icmp any host 123.210.8.241 
+permit tcp 123.210.8.241 0.0.0.127 host 123.210.8.241 eq 80
+deny ip any host 123.210.8.241
+
+R-Nav
+
+
