@@ -1,9 +1,43 @@
 R-Tel
 
+a in
 permit icmp any host 123.210.8.241 
-permit tcp 123.210.8.241 0.0.0.127 host 123.210.8.241 eq 80
+permit tcp 123.210.8.0 0.0.0.127 host 123.210.8.241 eq 80
 deny ip any host 123.210.8.241
+b out 
+permit icmp host 123.210.8.241 any
+permit tcp host 123.210.8.241 123.210.8.0 0.0.0.127 established
+deny ip host 123.210.8.241 any
 
 R-Nav
 
+a in
+permit icmp any host 123.210.8.221
+permit tcp 123.210.8.0 0.0.0.127 host 123.210.8.221 eq 80
+deny ip any host 123.210.8.221
+b out 
+permit icmp host 123.210.8.221 any
+permit tcp host 123.210.8.221 123.210.8.0 0.0.0.127 established
+deny ip host 123.210.8.221 any
 
+R-Var
+
+a in
+permit icmp any host 123.210.8.189
+permit tcp 123.210.8.0 0.0.0.127 host 123.210.8.189 eq 80
+deny ip any host 123.210.8.189
+b out 
+permit icmp host 123.210.8.189 any
+permit tcp host 123.210.8.189 123.210.8.0 0.0.0.127 established
+deny ip host 123.210.8.189 any
+
+R-Upy
+
+a in
+permit icmp any host 123.210.8.237
+permit tcp 123.210.8.0 0.0.0.127 host 123.210.8.237 eq 80
+deny ip any host 123.210.8.237
+b out 
+permit icmp host 123.210.8.237 any
+permit tcp host 123.210.8.237 123.210.8.0 0.0.0.127 established
+deny ip host 123.210.8.237 any
