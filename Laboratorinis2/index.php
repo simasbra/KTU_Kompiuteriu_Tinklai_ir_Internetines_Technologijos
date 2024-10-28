@@ -101,10 +101,16 @@
 			<label for="zinute" class="control-label">Žinutė:</label>
 			<textarea name='zinute' class="form-control input-sm"></textarea>
 		</div>
-			<div class="form-group col-lg-2">
+		<div class="form-group col-sm-2">
 			<input type='submit' name='ok' value='siųsti' class="btn btn-default">
 		</div>
 	</form>
+	<div class="form-group col-sm-2">
+		<button onclick="window.location.href='automobilis.html';">Toliau</button>
+	</div>
+	<div class="form-group col-sm-8">
+		<a href="bootstrap_automobilis.html">Toliau į bootstrap_automobilis.html</a>
+	</div>
 </div>
 </body>
 </html>
