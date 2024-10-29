@@ -24,6 +24,18 @@
 <center><h3>Žinučių sistema</h3></center>
 
 <?php
+if (isset($_POST['delete'])) {
+    // Check if 'vardas' has a non-empty value
+    if (!empty($_POST['vardas'])) {
+        $vardas = $_POST['vardas'];
+
+        $sql = "DELETE FROM $lentele WHERE siuntejas='$vardas'";
+        if (!$result = $dbc->query($sql)) die("Negaliu ištrinti: " . $dbc->error);
+        header("Location:index.php");
+    }
+}
+?>
+<?php
 	$server = "localhost";
 	$db = "stud";
 	$user = "stud";
@@ -31,7 +43,9 @@
 	$lentele = "simasbradaitis";
 	$dbc = mysqli_connect($server,$user,$password, $db);
 	if(!$dbc){ die ("Negaliu prisijungti prie MySQL:" .mysqli_error($dbc)); }
-	if($_POST != null){
+
+	// if($_POST != null){
+	if (isset($_POST['ok'])) {
 		$vardas = $_POST['vardas'];
 		$epastas = $_POST['epastas'];
 		$kam = $_POST['kam'];
@@ -41,6 +55,16 @@
 		if (!mysqli_query($dbc, $sql))  die ("Klaida įrašant:" .mysqli_error($dbc));
 		echo "Įrašyta";
 		//exit();
+	}
+
+	if (isset($_POST['delete'])) {
+		if (!empty($_POST['vardas'])) {
+			$vardas = $_POST['vardas'];
+			$sql = "DELETE FROM $lentele WHERE siuntejas='$vardas'";
+			if (!$result = $dbc->query($sql)) die("Negaliu ištrinti: " . $dbc->error) {
+				header("Location:index.php");
+			}
+		}
 	}
 
 	$sql =  "SELECT * FROM $lentele";  
@@ -103,6 +127,9 @@
 		</div>
 		<div class="form-group col-sm-2">
 			<input type='submit' name='ok' value='siųsti' class="btn btn-default">
+		</div>
+		<div class="form-group col-lg-4">
+			<input type='submit' name='delete' value='Naikinti' class="btn btn-default">
 		</div>
 	</form>
 	<div class="form-group col-sm-2">
