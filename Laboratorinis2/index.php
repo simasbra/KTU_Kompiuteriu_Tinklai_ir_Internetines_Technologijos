@@ -61,9 +61,8 @@ if (isset($_POST['delete'])) {
 		if (!empty($_POST['vardas'])) {
 			$vardas = $_POST['vardas'];
 			$sql = "DELETE FROM $lentele WHERE siuntejas='$vardas'";
-			if (!$result = $dbc->query($sql)) die("Negaliu ištrinti: " . $dbc->error) {
-				header("Location:index.php");
-			}
+			if (!$result = $dbc->query($sql)) die("Negaliu ištrinti: " . $dbc->error);
+			header("Location:index.php");
 		}
 	}
 
@@ -127,6 +126,10 @@ if (isset($_POST['delete'])) {
 		</div>
 		<div class="form-group col-sm-2">
 			<input type='submit' name='ok' value='siųsti' class="btn btn-default">
+		</div>
+		<div class="form-group col-sm-4">
+			<label for="vardas" class="control-label">Siuntėjo vardas:</label>
+			<input name='vardas' type='text' class="form-control input-sm">
 		</div>
 		<div class="form-group col-lg-4">
 			<input type='submit' name='delete' value='Naikinti' class="btn btn-default">
