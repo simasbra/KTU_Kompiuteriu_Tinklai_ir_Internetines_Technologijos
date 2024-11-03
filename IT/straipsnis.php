@@ -5,10 +5,10 @@
 	$db = "IT";
 	$user = "stud";
 	$password = "stud";
-
 	$dbc = mysqli_connect($server, $user, $password, $db);
+
 	if (!$dbc) {
-	die("Failed to connect to MySQL. Error: " . mysqli_error($dbc));
+		die("Failed to connect to MySQL. Error: " . mysqli_error($dbc));
 	}
 
 	$article_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -45,16 +45,7 @@
 	</head>
 
 	<body>
-		<div>
-			<ul>
-				<li><a href="index.php">Pradinis puslapis</a></li>
-				<li><a href="uzduotis.html">Užduotis</a></li>
-				<li><a href="">Mano straipsniai</a></li>
-				<li><a href="">Kurti straipsni</a></li>
-				<li><a href="">Statistika</a></li>
-				<li><a href="">Prisijungti</a></li>
-			</ul>
-		</div>
+		<iframe src="navbar.html" title="navbar"></iframe> 
 
 		<div>
 			<center>
@@ -79,4 +70,3 @@
 	$stmt->close();
 	$dbc->close();
 ?>
->
