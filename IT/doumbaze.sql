@@ -36,9 +36,14 @@ create table Vertinimas (
 	id int not null auto_increment,
 	vertinimas int not null,
 	vartotojas_id int not null,
+	straipsnis_id int not null,
 
 	primary key (id),
-	foreign key (vartotojas_id) references Vartotojas(id)
+	foreign key (vartotojas_id) references Vartotojas(id),
+	foreign key (straipsnis_id) references Straipsnis(id)
 );
 
 insert into Paskyros_tipas (name) values ("Vartotojas"), ("Vadybininkas");
+
+ALTER TABLE Vertinimas ADD COLUMN straipsnis_id INT NOT NULL;
+ALTER TABLE Vertinimas ADD FOREIGN KEY (straipsnis_id) REFERENCES Straipsnis(id);

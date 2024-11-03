@@ -13,6 +13,7 @@
 
 	$article_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
+	// Fetch article details
 	$sql = "
 		SELECT 
 		Straipsnis.pavadinimas,
@@ -35,7 +36,40 @@
 	if (!$article) {
 		echo "Straipsnis nerastas.";
 		exit;
+
+	// Handle rating submission
+	if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating'])) {
+			$rating = intval($_POST['rating']);
+			$user_id = 1; // Assume a logged-in user with ID 1; replace with dynamic user ID as needed
+
+		if ($rating >= 1 && $rating <= 10) {
+			$rating_sql = "INSERT INTO Vertinimas (vertinimas, vartotojas_id, straipsnis_id) VALUES (?, ?, ?)";
+			$rating_stmt = $dbc->prepare($rating_sql);
+			$rating_stmt->bind_param("iii", $rating, $user_id, $article_id);
+
+			if ($rating_stmt->execute()) {
+				$rating_message = "Jūsų įvertinimas sėkmingai pateiktas!";
+			} else {
+				$rating_message = "Klaida pateikiant įvertinimą: " . $dbc->error;
+			}
+
+			$rating_stmt->close();
+		} else {
+			$rating_message = "Įvertinimas turi būti tarp 1 ir 10.";
+		}
 	}
+
+	// Calculate the average rating for the article
+	$avg_rating_sql = "SELECT AVG(vertinimas) AS avg_rating FROM Vertinimas WHERE straipsnis_id = ?";
+	$avg_stmt = $dbc->prepare($avg_rating_sql);
+	$avg_stmt->bind_param("i", $article_id);
+	$avg_stmt->execute();
+	$avg_result = $avg_stmt->get_result();
+	$avg_rating = $avg_result->fetch_assoc()['avg_rating'] ?? "N/A";
+	$avg_stmt->close();
+
+	$stmt->close();
+	$dbc->close();}
 ?>
 
 <html>
@@ -66,8 +100,3 @@
 		</div>
 	</body>
 </html>
-
-<?php
-	$stmt->close();
-	$dbc->close();
-?>
