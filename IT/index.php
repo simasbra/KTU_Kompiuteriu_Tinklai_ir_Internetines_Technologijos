@@ -22,7 +22,7 @@
 
 	<script>
 		function navigateToStraipsnis(id) {
-			window.location.href = 'straipsnis.php?id=' + id;
+			window.location.href = "article.php?id=" + id;
 		}
 	</script>
 
