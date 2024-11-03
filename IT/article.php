@@ -95,6 +95,25 @@
 			<p><?php echo nl2br(htmlspecialchars($article['tekstas'])); ?></p>
 		</div>
 
+		<div style="padding: 20px;">
+			<h3>Įvertinti straipsnį</h3>
+			<p>Vidutinis įvertinimas: <?php echo $avg_rating !== "N/A" ? round($avg_rating, 1) : "Nėra įvertinimų"; ?></p>
+
+			<?php if (!empty($rating_message)): ?>
+			<p><?php echo htmlspecialchars($rating_message); ?></p>
+			<?php endif; ?>
+
+			<form method="post" action="">
+				<label for="rating">Pasirinkite įvertinimą (1-10):</label>
+				<select name="rating" id="rating" required>
+					<?php for ($i = 1; $i <= 10; $i++): ?>
+					<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+					<?php endfor; ?>
+				</select>
+				<input type="submit" value="Pateikti įvertinimą">
+			</form>
+		</div>
+
 		<div>
 			<a href="index.php">Grįžti į pradžią</a>
 		</div>
