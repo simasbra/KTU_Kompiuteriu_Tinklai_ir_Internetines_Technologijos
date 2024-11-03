@@ -1,7 +1,11 @@
 .DS_STORE
+
 Medziaga/
 lubuntu/
-*.xlsx
-*.odt
 KT/*.jpeg
+
+*.xlsx*
+*.odt*
+*.docx*
+
 *.un~
