@@ -17,6 +17,7 @@
 	<head>
 		<title>IT projektas</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 
 	<script>
@@ -26,7 +27,7 @@
 	</script>
 
 	<body>
-		<iframe src="navbar.html" title="navbar"></iframe> 
+		<?php include "navbar.php"; ?>
 		
 		<div>
 			<center>

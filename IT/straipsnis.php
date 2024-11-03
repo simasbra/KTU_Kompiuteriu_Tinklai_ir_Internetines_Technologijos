@@ -42,10 +42,11 @@
 	<head>
 		<title>Straipsnis - <?php echo htmlspecialchars($article['pavadinimas']); ?></title>
 		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 
 	<body>
-		<iframe src="navbar.html" title="navbar"></iframe> 
+		<?php include 'navbar.php'; ?>
 
 		<div>
 			<center>
