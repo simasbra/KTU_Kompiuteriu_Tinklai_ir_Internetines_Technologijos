@@ -12,8 +12,19 @@
 				<h3>Simas Bradaitis</h3>
 			</center>
 		</div>
+
 		<div>
-			<button onclick="window.location.href='uzduotis.html'">Uzduotis</button>
+			<ul>
+				<li><a href="index.php">Pradinis puslapis</a></li>
+				<li><a href="uzduotis.html">Užduotis</a></li>
+				<li><a href="">Mano straipsniai</a></li>
+				<li><a href="">Statistika</a></li>
+				<li><a href="">Prisijungti</a></li>
+			</ul>
+		</div>
+
+		<div>
+			php part
 		</div>
 	</body>
 </html>
