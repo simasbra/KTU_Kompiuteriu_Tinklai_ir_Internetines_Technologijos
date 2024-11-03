@@ -42,36 +42,39 @@
 				<li><a href="">Prisijungti</a></li>
 			</ul>
 		</div>
-<?php
-	$sql =  "SELECT * FROM $table";  
 
-	if (!$result = $dbc->query($sql)) {
-		die("phP is too stoOopid to read the table. Error: " . $dbc->error);
-	}
+		<?php
+			$sql =  "SELECT * FROM $table";  
 
-	echo "<br/>";
-	echo "<table style='margin: 0px auto;' id='straipsniai'>";
-	echo "
-		<tr>
-			<th>Pavadinimas</th>
-			<th>Tema</th>
-			<th>Autorius</th>
-			<th>Sukurimo data</th>
-		</tr>
-	";
-	while($row = $result->fetch_assoc()) {
-		echo "
-			<tr>
-				<tr onclick='navigateToStraipsnis(".$row['id'].")'>
-				<td>".$row['pavadinimas']."</td>
-				<td>".$row['tema']."</td>
-				<td>".$row['tema']."</td>
-				<td>".$row['sukurimo_data']."</td>
-			</tr>
-		";
-	}
-?>
+			if (!$result = $dbc->query($sql)) {
+				die("phP is too stoOopid to read the table. Error: " . $dbc->error);
+			}
+
+			echo "<br/>";
+			echo "<table style='margin: 0px auto;' id='straipsniai'>";
+			echo "
+				<tr>
+					<th>Pavadinimas</th>
+					<th>Tema</th>
+					<th>Autorius</th>
+					<th>Sukurimo data</th>
+				</tr>
+			";
+			while($row = $result->fetch_assoc()) {
+				echo "
+					<tr>
+						<tr onclick='navigateToStraipsnis(".$row['id'].")'>
+						<td>".$row['pavadinimas']."</td>
+						<td>".$row['tema']."</td>
+						<td>".$row['tema']."</td>
+						<td>".$row['sukurimo_data']."</td>
+					</tr>
+				";
+			}
+		?>
+
 		<div>
+
 		</div>
 	</body>
 </html>
