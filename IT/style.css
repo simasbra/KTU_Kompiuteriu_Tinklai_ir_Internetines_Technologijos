@@ -133,3 +133,10 @@ form input[type="submit"]:hover {
 #rating:hover {
     background-color: #163059;
 }
+
+.rating-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

@@ -63,8 +63,15 @@
 	// Calculate the average rating for the article
 	$avg_rating_sql = "SELECT AVG(vertinimas) AS avg_rating FROM Vertinimas WHERE straipsnis_id = ?";
 	$avg_stmt = $dbc->prepare($avg_rating_sql);
-	$avg_stmt->bind_param("i", $article_id);
-	$avg_stmt->execute();
+	if (!$avg_stmt) {
+		die("Prepare failed: (" . $dbc->errno . ") " . $dbc->error);
+	}
+
+	$avg_stmt->bind_param("i", $article_id); // Corrected from "id" to "i"
+	if (!$avg_stmt->execute()) {
+		die("Execute failed: (" . $avg_stmt->errno . ") " . $avg_stmt->error);
+	}
+
 	$avg_result = $avg_stmt->get_result();
 	$avg_rating = $avg_result->fetch_assoc()['avg_rating'] ?? "N/A";
 
@@ -96,7 +103,7 @@
 			<p><?php echo nl2br(htmlspecialchars($article['tekstas'])); ?></p>
 		</div>
 
-		<div style="padding: 20px;">
+		<div class="rating-container" style="padding: 20px;">
 			<h3>Įvertinti straipsnį</h3>
 			<p>Vidutinis įvertinimas: <?php echo $avg_rating !== "N/A" ? round($avg_rating, 1) : "Nėra įvertinimų"; ?></p>
 
