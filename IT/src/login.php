@@ -1,10 +1,12 @@
 <?php
 session_start();
+
 // Check if user is already logged in
 if (isset($_SESSION['user_id'])) {
 	header("Location: index.php");
 	exit();
 }
+
 $server = "localhost";
 $db = "IT";
 $user = "stud";
@@ -16,7 +18,7 @@ if (!$dbc) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$usermame = $_POST['username'];
+	$username = $_POST['username'];
 	$password = $_POST['password'];
 
 	$query = "SELECT * FROM Vartotojas WHERE prisijungimo_vardas = ?";
@@ -30,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if (password_verify($password, $user['slaptazodis'])) {
 			$_SESSION['user_id'] = $user['id'];
 			$_SESSION['username'] = $user['prisijungimo_vardas'];
+			$_SESSION['user_name'] = $user['vardas'] . ' ' . $user['pavarde'];
 			$_SESSION['message'] = "Sėkmingai prisijungta!";
 			header("Location: index.php");
 			exit();
@@ -76,3 +79,4 @@ $dbc->close();
 </body>
 
 </html>
+l>
