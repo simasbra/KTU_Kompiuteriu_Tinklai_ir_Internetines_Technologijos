@@ -2,8 +2,8 @@
 
 # Define variables
 DB_NAME="IT"
-SQL_SCRIPT="./duombaze.sql"
-PHP_FILES_DIR="./src"
+SQL_SCRIPT="duombaze.sql"
+PHP_FILES_DIR="src"
 WEB_DIR="/var/www/html/IT"
 
 # Check if the script is being run as root (necessary for copying to /var/www/html)
@@ -14,7 +14,7 @@ fi
 
 # Create the database and tables using the SQL script
 echo "Running SQL script to create database and tables..."
-mysql -u root -p < "$SQL_SCRIPT"
+mysql -u stud -pstud < "$SQL_SCRIPT"
 if [ $? -ne 0 ]; then
   echo "Error running SQL script."
   exit 1
@@ -24,8 +24,9 @@ echo "SQL script executed successfully."
 
 # Ensure the target directory exists
 echo "Copying PHP files to $WEB_DIR..."
+rm -rf "$WEB_DIR"
 mkdir -p "$WEB_DIR"
-cp -r "$PHP_FILES_DIR"/*.php "$WEB_DIR/"
+cp -r "$PHP_FILES_DIR"/* "$WEB_DIR/"
 if [ $? -ne 0 ]; then
   echo "Error copying PHP files."
   exit 1

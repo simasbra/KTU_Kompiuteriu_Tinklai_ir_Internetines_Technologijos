@@ -45,6 +45,3 @@ create table Vertinimas (
 );
 
 insert into Paskyros_tipas (name) values ("Vartotojas"), ("Vadybininkas");
-
-ALTER TABLE Vertinimas ADD COLUMN straipsnis_id INT NOT NULL;
-ALTER TABLE Vertinimas ADD FOREIGN KEY (straipsnis_id) REFERENCES Straipsnis(id);
