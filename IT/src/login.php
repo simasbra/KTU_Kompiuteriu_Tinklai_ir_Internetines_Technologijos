@@ -1,6 +1,10 @@
 <?php
 session_start();
-
+// Check if user is already logged in
+if (isset($_SESSION['user_id'])) {
+	header("Location: index.php");
+	exit();
+}
 $server = "localhost";
 $db = "IT";
 $user = "stud";
@@ -12,8 +16,8 @@ if (!$dbc) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$username = mysqli_real_escape_string($dbc, $_POST['username']);
-	$password = mysqli_real_escape_string($dbc, $_POST['password']);
+	$usermame = $_POST['username'];
+	$password = $_POST['password'];
 
 	$query = "SELECT * FROM Vartotojas WHERE prisijungimo_vardas = ?";
 	$stmt = $dbc->prepare($query);
