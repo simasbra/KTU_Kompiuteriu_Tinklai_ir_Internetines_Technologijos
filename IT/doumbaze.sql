@@ -1,3 +1,4 @@
+drop database if exists IT;
 create database IT;
 use IT;
 
