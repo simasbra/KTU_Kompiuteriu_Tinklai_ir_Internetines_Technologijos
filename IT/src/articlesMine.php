@@ -1,44 +1,45 @@
 <!DOCTYPE html>
 
 <?php
-	if (session_status() == PHP_SESSION_NONE) {
-		session_start();
-	}
-	$user_id = $_SESSION['user_id'];
-	$server = "localhost";
-	$db = "IT";
-	$user = "stud";
-	$password = "stud";
-	$table = "Straipsnis";
-	$dbc = mysqli_connect($server,$user,$password, $db);
+if (session_status() == PHP_SESSION_NONE) {
+	session_start();
+}
+$user_id = $_SESSION['user_id'];
+$server = "localhost";
+$db = "IT";
+$user = "stud";
+$password = "stud";
+$table = "Straipsnis";
+$connection = mysqli_connect($server, $user, $password, $db);
 
-	if(!$dbc) {
-		die ("Php is too stoopid to login to MySQL. Error:" .mysqli_error($dbc));
-	}
+if (!$connection) {
+	die("Php is too stoopid to login to MySQL. Error:" . mysqli_error($connection));
+}
 ?>
 
 <html>
-	<?php include "headGimmeHead.php"; ?>
 
-	<script>
-		function navigateToStraipsnis(id) {
-			window.location.href = "article.php?id=" + id;
-		}
-	</script>
+<?php include "headGimmeHead.php"; ?>
 
-	<body>
-		<?php include "navbar.php"; ?>
+<script>
+	function navigateToStraipsnis(id) {
+		window.location.href = "article.php?id=" + id;
+	}
+</script>
 
-		<?php
-			$sql =  "SELECT * FROM $table WHERE vartotojas_id='$user_id'";
+<body>
+	<?php include "navbar.php"; ?>
 
-			if (!$result = $dbc->query($sql)) {
-				die("phP is too stoOopid to read the table. Error: " . $dbc->error);
-			}
+	<?php
+	$sql =  "SELECT * FROM $table WHERE vartotojas_id='$user_id'";
 
-			echo "<br/>";
-			echo "<table style='margin: 0px auto;' id='straipsniai'>";
-			echo "
+	if (!$result = $connection->query($sql)) {
+		die("phP is too stoOopid to read the table. Error: " . $connection->error);
+	}
+
+	echo "<br/>";
+	echo "<table style='margin: 0px auto;' id='straipsniai'>";
+	echo "
 				<tr>
 					<th>Pavadinimas</th>
 					<th>Tema</th>
@@ -46,22 +47,23 @@
 					<th>Sukurimo data</th>
 				</tr>
 			";
-			while($row = $result->fetch_assoc()) {
-				echo "
+	while ($row = $result->fetch_assoc()) {
+		echo "
 					<tr>
-						<tr onclick='navigateToStraipsnis(".$row['id'].")'>
-						<td>".$row['pavadinimas']."</td>
-						<td>".$row['tema']."</td>
-						<td>".$row['tema']."</td>
-						<td>".$row['sukurimo_data']."</td>
+						<tr onclick='navigateToStraipsnis(" . $row['id'] . ")'>
+						<td>" . $row['pavadinimas'] . "</td>
+						<td>" . $row['tema'] . "</td>
+						<td>" . $row['tema'] . "</td>
+						<td>" . $row['sukurimo_data'] . "</td>
 					</tr>
 				";
-			}
-		?>
+	}
+	?>
 
-		<div>
-		</div>
-	</body>
+	<div>
+	</div>
+</body>
+
 </html>
 
-<?php $dbc->close(); ?>
+<?php $connection->close(); ?>

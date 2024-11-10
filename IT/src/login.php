@@ -1,6 +1,6 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
-	session_start()
+	session_start();
 }
 // Check if user is already logged in
 if (isset($_SESSION['user_id'])) {
@@ -12,10 +12,10 @@ $server = "localhost";
 $db = "IT";
 $user = "stud";
 $password = "stud";
-$dbc = mysqli_connect($server, $user, $password, $db);
+$connection = mysqli_connect($server, $user, $password, $db);
 
-if (!$dbc) {
-	die("Failed to connect to MySQL. Error: " . mysqli_error($dbc));
+if (!$connection) {
+	die("Failed to connect to MySQL. Error: " . mysqli_error($connection));
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$password = $_POST['password'];
 
 	$query = "SELECT * FROM Vartotojas WHERE prisijungimo_vardas = ?";
-	$stmt = $dbc->prepare($query);
+	$stmt = $connection->prepare($query);
 	$stmt->bind_param("s", $username);
 	$stmt->execute();
 	$result = $stmt->get_result();
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$stmt->close();
 }
 
-$dbc->close();
+$connection->close();
 ?>
 
 <!DOCTYPE html>

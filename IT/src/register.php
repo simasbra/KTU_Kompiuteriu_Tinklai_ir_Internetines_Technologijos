@@ -1,26 +1,26 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
-	session_start()
+	session_start();
 }
 $server = "localhost";
 $db = "IT";
 $user = "stud";
 $password = "stud";
-$dbc = mysqli_connect($server, $user, $password, $db);
+$connection = mysqli_connect($server, $user, $password, $db);
 
-if (!$dbc) {
-	die("Failed to connect to MySQL. Error: " . mysqli_error($dbc));
+if (!$connection) {
+	die("Failed to connect to MySQL. Error: " . mysqli_error($connection));
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$username = mysqli_real_escape_string($dbc, $_POST['username']);
-	$password = mysqli_real_escape_string($dbc, $_POST['password']);
-	$name = mysqli_real_escape_string($dbc, $_POST['name']);
-	$surname = mysqli_real_escape_string($dbc, $_POST['surname']);
+	$username = mysqli_real_escape_string($connection, $_POST['username']);
+	$password = mysqli_real_escape_string($connection, $_POST['password']);
+	$name = mysqli_real_escape_string($connection, $_POST['name']);
+	$surname = mysqli_real_escape_string($connection, $_POST['surname']);
 	$password_hash = password_hash($password, PASSWORD_DEFAULT); // Hash the password
 
 	$query = "INSERT INTO Vartotojas (prisijungimo_vardas, slaptazodis, vardas, pavarde, paskyros_tipas_id) VALUES (?, ?, ?, ?, ?)";
-	$stmt = $dbc->prepare($query);
+	$stmt = $connection->prepare($query);
 	$paskyros_tipas_id = 1; // Assuming "Vartotojas" is the default type for normal users
 	$stmt->bind_param("ssssi", $username, $password_hash, $name, $surname, $paskyros_tipas_id);
 
@@ -29,16 +29,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		header("Location: login.php");
 		exit();
 	} else {
-		$_SESSION['message'] = "Klaida registruojant vartotoją: " . $dbc->error;
+		$_SESSION['message'] = "Klaida registruojant vartotoją: " . $connection->error;
 	}
 
 	$stmt->close();
 }
 
-$dbc->close();
+$connection->close();
 ?>
 
 <!DOCTYPE html>
+
 <html lang="lt">
 
 <?php include "headGimmeHead.php"; ?>
