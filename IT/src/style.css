@@ -186,3 +186,66 @@ form input[type="submit"]:hover {
 .navbar .dropdown:hover .dropbtn {
     background-color: #163059;
 }
+
+.form-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #1b2a40;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.form-container h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.message-box {
+    background-color: #163059;
+    color: #ffffff;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+form label {
+    display: block;
+    color: #ffffff;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #34495e;
+    border-radius: 5px;
+    background-color: #2c3e50;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #112544;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #163059;
+}
