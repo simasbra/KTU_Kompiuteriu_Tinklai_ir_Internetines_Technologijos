@@ -19,9 +19,5 @@
 			<p><strong>Papildomos funkcijos:</strong></p>
 			<p>Statistikos matymas grafikais (stulpeliai ir skrituliné diagrama), kurios 5 temos yra populiariausios</p>
 		</div>
-
-		<div>
-			<button onclick="window.location.href='index.php'">Grįžti</button>
-		</div>
 	</body>
 </html>

@@ -1,4 +1,8 @@
-<?php session_start() ?>
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+	session_start()
+}
+?>
 
 <div class="navbar">
 	<ul>
@@ -9,7 +13,7 @@
 			<a href="task.php">Užduotis</a>
 		</li>
 		<li>
-			<a href="">Mano straipsniai</a>
+			<a href="articlesMine.php">Mano straipsniai</a>
 		</li>
 		<li>
 			<a href="articleCreate.php">Kurti straipsni</a>

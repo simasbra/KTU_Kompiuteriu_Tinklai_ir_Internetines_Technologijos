@@ -1,4 +1,7 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+	session_start()
+}
 // Check if user is already logged in
 if (isset($_SESSION['user_id'])) {
 	header("Location: index.php");
@@ -50,11 +53,7 @@ $dbc->close();
 <!DOCTYPE html>
 <html lang="lt">
 
-<head>
-	<meta charset="UTF-8">
-	<title>Prisijungti</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
+<?php include "headGimmeHead.php"; ?>
 
 <body>
 	<?php include "navbar.php"; ?>
@@ -78,9 +77,11 @@ $dbc->close();
 			</div>
 			<input type="submit" value="Prisijungti" class="submit-btn">
 		</form>
-		<p>Dar neturite paskyros? <a href="register.php">Registruotis</a></p>
+		<p>
+			Dar neturite paskyros?
+			<a href="register.php">Registruotis</a>
+		</p>
 	</div>
 </body>
 
 </html>
-l>

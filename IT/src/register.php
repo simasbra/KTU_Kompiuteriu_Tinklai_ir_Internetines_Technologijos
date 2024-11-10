@@ -1,6 +1,7 @@
 <?php
-session_start();
-
+if (session_status() == PHP_SESSION_NONE) {
+	session_start()
+}
 $server = "localhost";
 $db = "IT";
 $user = "stud";
@@ -40,11 +41,7 @@ $dbc->close();
 <!DOCTYPE html>
 <html lang="lt">
 
-<head>
-	<meta charset="UTF-8">
-	<title>Registracija</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
+<?php include "headGimmeHead.php"; ?>
 
 <body>
 	<?php include "navbar.php"; ?>
