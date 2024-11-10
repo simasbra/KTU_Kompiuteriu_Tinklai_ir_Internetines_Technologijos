@@ -22,9 +22,18 @@ fi
 
 echo "SQL script executed successfully."
 
+# Check if the web directory exists and remove it if it does
+echo "Removing existing $WEB_DIR if it exists..."
+if [ -d "$WEB_DIR" ]; then
+  rm -rf "$WEB_DIR"
+  if [ $? -ne 0 ]; then
+    echo "Error removing existing directory."
+    exit 1
+  fi
+fi
+
 # Ensure the target directory exists
-echo "Copying PHP files to $WEB_DIR..."
-rm -rf "$WEB_DIR"
+echo "Creating directory $WEB_DIR..."
 mkdir -p "$WEB_DIR"
 cp -r "$PHP_FILES_DIR"/* "$WEB_DIR/"
 if [ $? -ne 0 ]; then
