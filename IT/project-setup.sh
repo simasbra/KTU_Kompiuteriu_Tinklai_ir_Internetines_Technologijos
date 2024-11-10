@@ -44,8 +44,8 @@ fi
 echo "PHP files copied successfully to $WEB_DIR."
 
 # Set proper permissions for the web server to access the files
-# echo "Setting file permissions..."
-# chown -R www-data:www-data "$WEB_DIR"
-# chmod -R 755 "$WEB_DIR"
+echo "Setting file permissions..."
+chown -R www-data:www-data "$WEB_DIR"
+chmod -R 755 "$WEB_DIR"
 
 echo "Setup complete."

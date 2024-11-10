@@ -43,9 +43,12 @@ $dbc->close();
 <head>
 	<meta charset="UTF-8">
 	<title>Registracija</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
+	<?php include "navbar.php"; ?>
+
 	<h2>Registracija</h2>
 	<?php
 	if (isset($_SESSION['message'])) {

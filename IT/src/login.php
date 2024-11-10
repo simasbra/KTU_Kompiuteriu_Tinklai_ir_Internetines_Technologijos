@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$_SESSION['user_id'] = $user['id'];
 			$_SESSION['username'] = $user['prisijungimo_vardas'];
 			$_SESSION['message'] = "Sėkmingai prisijungta!";
-			header("Location: dashboard.php");
+			header("Location: index.php");
 			exit();
 		} else {
 			$_SESSION['message'] = "Neteisingas slaptažodis.";
@@ -48,9 +48,12 @@ $dbc->close();
 <head>
 	<meta charset="UTF-8">
 	<title>Prisijungti</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
+	<?php include "navbar.php"; ?>
+
 	<h2>Prisijungti</h2>
 	<?php
 	if (isset($_SESSION['message'])) {

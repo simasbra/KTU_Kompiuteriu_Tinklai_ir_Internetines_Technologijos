@@ -5,7 +5,7 @@
         <li><a href="">Mano straipsniai</a></li>
         <li><a href="articleCreate.php">Kurti straipsni</a></li>
         <li><a href="">Statistika</a></li>
-        <li><a href="">Prisijungti</a></li>
+        <li><a href="login.php">Prisijungti</a></li>
     </ul>
 </div>
 
