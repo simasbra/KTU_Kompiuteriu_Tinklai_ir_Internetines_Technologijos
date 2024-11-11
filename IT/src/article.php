@@ -117,10 +117,6 @@ $connection->close();
 			</form>
 		<?php endif; ?>
 	</div>
-
-	<div>
-		<a href="index.php">Grįžti į pradžią</a>
-	</div>
 </body>
 
 </html>
