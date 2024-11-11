@@ -17,11 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$password = mysqli_real_escape_string($connection, $_POST['password']);
 	$name = mysqli_real_escape_string($connection, $_POST['name']);
 	$surname = mysqli_real_escape_string($connection, $_POST['surname']);
-	$password_hash = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+	$password_hash = password_hash($password, PASSWORD_DEFAULT);
+	$paskyros_tipas_id = isset($_POST['arVadybininkas']) ? 2 : 1;
 
 	$query = "INSERT INTO Vartotojas (prisijungimo_vardas, slaptazodis, vardas, pavarde, paskyros_tipas_id) VALUES (?, ?, ?, ?, ?)";
 	$stmt = $connection->prepare($query);
-	$paskyros_tipas_id = 1; // Assuming "Vartotojas" is the default type for normal users
 	$stmt->bind_param("ssssi", $username, $password_hash, $name, $surname, $paskyros_tipas_id);
 
 	if ($stmt->execute()) {
