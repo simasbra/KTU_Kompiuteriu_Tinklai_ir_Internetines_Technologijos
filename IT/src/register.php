@@ -63,6 +63,8 @@ $connection->close();
 		<input type="text" name="name" required><br><br>
 		<label for="surname">Pavardė:</label>
 		<input type="text" name="surname" required><br><br>
+		<label for="arVadybininkas">Ar norite kurti straipsnius?:</label>
+		<input type="checkbox" name="arVadybininkas"><br><br>
 		<input type="submit" value="Registruotis">
 	</form>
 </body>

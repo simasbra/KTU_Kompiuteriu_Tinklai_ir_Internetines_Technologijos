@@ -11,7 +11,6 @@ if (!$connection) {
 
 $article_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Fetch article details
 $sql = "
 		SELECT 
 		Straipsnis.pavadinimas,
@@ -36,10 +35,9 @@ if (!$article) {
 	exit;
 }
 
-// Handle rating submission
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating']) && isset($_SESSION['user_id'])) {
 	$rating = intval($_POST['rating']);
-	$user_id = 1; // Assume a logged-in user with ID 1; replace with dynamic user ID as needed
+	$user_id = $_SESSION['user_id'];
 
 	if ($rating >= 1 && $rating <= 10) {
 		$rating_sql = "INSERT INTO Vertinimas (vertinimas, vartotojas_id, straipsnis_id) VALUES (?, ?, ?)";
@@ -58,14 +56,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating'])) {
 	}
 }
 
-// Calculate the average rating for the article
 $avg_rating_sql = "SELECT AVG(vertinimas) AS avg_rating FROM Vertinimas WHERE straipsnis_id = ?";
 $avg_stmt = $connection->prepare($avg_rating_sql);
 if (!$avg_stmt) {
 	die("Prepare failed: (" . $connection->errno . ") " . $connection->error);
 }
 
-$avg_stmt->bind_param("i", $article_id); // Corrected from "id" to "i"
+$avg_stmt->bind_param("i", $article_id);
 if (!$avg_stmt->execute()) {
 	die("Execute failed: (" . $avg_stmt->errno . ") " . $avg_stmt->error);
 }
@@ -108,15 +105,17 @@ $connection->close();
 			<p><?php echo htmlspecialchars($rating_message); ?></p>
 		<?php endif; ?>
 
-		<form method="post" action="">
-			<label for="rating">Pasirinkite įvertinimą (1-10):</label>
-			<select name="rating" id="rating" required>
-				<?php for ($i = 1; $i <= 10; $i++): ?>
-					<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-				<?php endfor; ?>
-			</select>
-			<input type="submit" value="Pateikti įvertinimą">
-		</form>
+		<?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'Vartotojas'): ?>
+			<form method="post" action="">
+				<label for="rating">Pasirinkite įvertinimą (1-10):</label>
+				<select name="rating" id="rating" required>
+					<?php for ($i = 10; $i >= 1; $i--): ?>
+						<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+					<?php endfor; ?>
+				</select>
+				<input type="submit" value="Pateikti įvertinimą">
+			</form>
+		<?php endif; ?>
 	</div>
 
 	<div>

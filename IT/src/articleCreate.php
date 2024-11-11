@@ -3,6 +3,18 @@ if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'Vadybininkas') {
+	echo "
+		<div style='text-align: center; margin-top: 50px;'>
+			<h2>Neturite prieigos</h2>
+			<p>Šis puslapis yra prieinamas tik vadybininkams.</p>
+		</div>
+	";
+	sleep(3);
+	header("Location: index.php");
+	exit();
+}
+
 $server = "localhost";
 $db = "IT";
 $user = "stud";

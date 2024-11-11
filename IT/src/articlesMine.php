@@ -10,6 +10,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'Vadybininkas') {
 			<p>Šis puslapis yra prieinamas tik vadybininkams.</p>
 		</div>
 	";
+	sleep(3);
 	header("Location: index.php");
 	exit();
 }
