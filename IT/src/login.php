@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
-// Check if user is already logged in
+
 if (isset($_SESSION['user_id'])) {
 	header("Location: index.php");
 	exit();
@@ -22,7 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
-	$query = "SELECT * FROM Vartotojas WHERE prisijungimo_vardas = ?";
+	$query = "SELECT V.id, V.prisijungimo_vardas, V.slaptazodis, V.vardas, V.pavarde, P.name AS role
+		FROM Vartotojas V
+		JOIN Paskyros_tipas P ON V.paskyros_tipas_id = P.id
+		WHERE V.prisijungimo_vardas = ?";
 	$stmt = $connection->prepare($query);
 	$stmt->bind_param("s", $username);
 	$stmt->execute();
@@ -34,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$_SESSION['user_id'] = $user['id'];
 			$_SESSION['username'] = $user['prisijungimo_vardas'];
 			$_SESSION['user_name'] = $user['vardas'] . ' ' . $user['pavarde'];
+			$_SESSION['user_role'] = $user['role'];
 			$_SESSION['message'] = "Sėkmingai prisijungta!";
 			header("Location: index.php");
 			exit();
