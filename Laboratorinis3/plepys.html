@@ -1,12 +1,36 @@
-<!doctype html>
 <html>
 	<head>
+		<meta charset="utf-8" />
 		<link
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css"
 			integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 			crossorigin="anonymous"
 		/>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<style>
+			#zinutes {
+				font-family: Arial;
+				border-collapse: collapse;
+				width: 70%;
+			}
+			#zinutes td {
+				border: 1px solid #ddd;
+				padding: 8px;
+			}
+			#zinutes th {
+				border: 1px solid #ddd;
+				padding: 8px;
+			}
+			#zinutes tr:nth-child(even) {
+				background-color: #f2f2f2;
+			}
+			#zinutes tr:hover {
+				background-color: #ddd;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -26,21 +50,63 @@
 			integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
 			crossorigin="anonymous"
 		></script>
+		<center><h2>Žinučių sistema</h2></center>
+		<div id="table"></div>
 
 		<script>
 			$(document).ready(function () {
+				//nuskaitomos žinutės užkrovus puslapį
 				readMessages();
+				$("#forma").submit(function () {
+					var datastring = $("#forma").serialize(); // formos duomenys paruošiami siuntimui
+					$.ajax({
+						url: "http://localhost/lab3/write.php",
+						type: "POST",
+						data: datastring,
+						success: function (data) {
+							// sėkmės atveju iš naujo nuskaitoma lentelė
+							readMessages();
+						},
+					});
+					return false;
+				});
 			});
 
+			// funkcija atsakinga už žinučių nuskaitymą iš read API
 			function readMessages() {
 				$.ajax({
 					url: "http://localhost/lab3/read.php",
 					type: "GET",
 					data: {},
 					success: function (data) {
-						var table = '<table class="table  table-striped" table style="margin: 0px auto;" id="table">';
+						var table = '<table style="margin: 0px auto;" id="zinutes">';
+						table =
+							table +
+							"<tr><th>" +
+							"Vardas Pavarde" +
+							"</th><th>" +
+							"Email" +
+							"</th><th>" +
+							"Data" +
+							"</th><th>" +
+							"IP" +
+							"</th><th>" +
+							"Zinute" +
+							"</th></tr>";
 						for (var i = 0; i < data.length; ++i) {
-							table = table + "<tr><td>" + data[i].name + "</td></tr>";
+							table =
+								table +
+								"<tr><td>" +
+								data[i].name +
+								"</td><td>" +
+								data[i].email +
+								"</td><td>" +
+								data[i].created +
+								"</td><td>" +
+								data[i].ip +
+								"</td><td>" +
+								data[i].message +
+								"</td></tr>";
 						}
 						table = table + "</table>";
 						$("#table").html(table);
@@ -48,10 +114,27 @@
 				});
 			}
 		</script>
-		<div id="table">
-			<tr>
-				<th>Name</th>
-			</tr>
+		<center><h2>Įveskite naują žinutę</h2></center>
+		<div class="container">
+			<form method="post" id="forma">
+				<!-- action=http://localhost/lab3/write.php> -->
+				<div class="form-group col-lg-6">
+					<label for="studentname" class="control-label">Siuntėjo vardas:</label>
+					<input name="studentname" type="text" class="form-control input-sm" />
+				</div>
+				<div class="form-group col-lg-6">
+					<label for="email" class="control-label">Siuntėjo e-paštas:</label>
+					<input name="email" id="epastas" type="email" class="form-control input-sm" />
+				</div>
+				<div class="form-group col-lg-12">
+					<label for="zinute" class="control-label">Žinutė:</label>
+					<textarea name="zinute" class="form-control input-sm"></textarea>
+				</div>
+				<div class="form-group col-lg-2">
+					<input type="submit" name="ok" value="siųsti" class="btnbtn-default" />
+				</div>
+			</form>
 		</div>
 	</body>
 </html>
+
