@@ -1,0 +1,1 @@
+CREATE TABLE `stud`.`json` ( `id` INT(5) NOT NULL AUTO_INCREMENT , `created` DATETIME NOT NULL , `ip` VARCHAR(20) NOT NULL , `name` VARCHAR(50) NOT NULL , `email` VARCHAR(50) NOT NULL , `message` TEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
