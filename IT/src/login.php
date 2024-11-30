@@ -22,7 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
-	$query = "SELECT V.id, V.prisijungimo_vardas, V.slaptazodis, V.vardas, V.pavarde, P.name AS role
+	$query ="SELECT
+			V.id,
+			V.prisijungimo_vardas,
+			V.slaptazodis,
+			V.vardas,
+			V.pavarde,
+			P.pavadinimas AS role
 		FROM Vartotojas V
 		JOIN Paskyros_tipas P ON V.paskyros_tipas_id = P.id
 		WHERE V.prisijungimo_vardas = ?";
