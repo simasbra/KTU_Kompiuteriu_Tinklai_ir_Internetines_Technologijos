@@ -30,7 +30,7 @@ create table Tema (
 	foreign key (vartotojas_id) references Vartotojas(id)
 );
 
-create table VartotojasTema (
+create table Vartotojas_Tema (
 	id int not null auto_increment,
 	vartotojas_id int not null,
 	tema_id int not null,

@@ -5,10 +5,10 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'Publisher') {
 	echo "
-	<div style='text-align: center; margin-top: 50px;'>
-	<h2>Neturite prieigos</h2>
-	<p>Šis puslapis yra prieinamas tik rašytojams.</p>
-	</div>
+		<div style='text-align: center; margin-top: 50px;'>
+		<h2>Neturite prieigos</h2>
+		<p>Šis puslapis yra prieinamas tik rašytojams.</p>
+		</div>
 	";
 	sleep(3);
 	header("Location: index.php");
@@ -25,16 +25,29 @@ if (!$connection) {
 	die("Failed to connect to MySQL. Error: " . mysqli_error($connection));
 }
 
-$title = $topic = $blocks = $message = "";
+$title = $blocks = $message = "";
+$topics = [];
+
+// Read topics
+$topic_sql = "SELECT id, pavadinimas FROM Tema";
+$topic_result = $connection->query($topic_sql);
+
+if ($topic_result && $topic_result->num_rows > 0) {
+	while ($row = $topic_result->fetch_assoc()) {
+		$topics[] = $row;
+	}
+} else {
+	$message = "Temų nėra arba įvyko klaida gaunant temų sąrašą.";
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 	$title = trim($_POST['pavadinimas']);
-	$topic = trim($_POST['tema']);
+	$topic_id = intval($_POST['tema']);
 	$blocks = $_POST['blokai']; // Array with block data
 	$user_id = $_SESSION['user_id'];
 	$creation_date = date('Y-m-d H:i:s');
 
-	if (empty($title) || empty($topic) || empty($blocks)) {
+	if (empty($title) || empty($topic_id) || empty($blocks)) {
 		$message = "Visi laukeliai yra privalomi!";
 	} else {
 		// Start transaction
@@ -44,9 +57,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 			// Insert the article
 			$article_sql = "INSERT INTO Straipsnis (pavadinimas, sukurimo_data, vartotojas_id, tema_id) VALUES (?, ?, ?, ?)";
 			$article_stmt = $connection->prepare($article_sql);
-			$article_stmt->bind_param("ssii", $title, $creation_date, $user_id, $topic);
+			$article_stmt->bind_param("ssii", $title, $creation_date, $user_id, $topic_id);
 			$article_stmt->execute();
-			$article_id = $connection->insert_id; // Get the ID of the created article
+			$article_id = $connection->insert_id;
 
 			// Insert the blocks
 			foreach ($blocks as $block) {
@@ -59,7 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 					$image_stmt = $connection->prepare($image_sql);
 					$image_stmt->bind_param("sss", $block['paveikslelis_pavadinimas'], $block['paveikslelis_url'], $block['paveikslelis_pozicija']);
 					$image_stmt->execute();
-					$image_id = $connection->insert_id; // Get the ID of the created image
+					// Get the id of the created image
+					$image_id = $connection->insert_id;
 					$image_stmt->close();
 				}
 
@@ -138,8 +152,15 @@ $connection->close();
 				<label for="pavadinimas">Pavadinimas:</label><br>
 				<input type="text" id="pavadinimas" name="pavadinimas" value="<?php echo htmlspecialchars($title); ?>" required><br><br>
 
-				<label for="tema">Tema (ID):</label><br>
-				<input type="number" id="tema" name="tema" value="<?php echo htmlspecialchars($topic); ?>" required><br><br>
+				<label for="tema">Tema:</label><br>
+				<select id="tema" name="tema" required>
+					<option value="">Pasirinkite temą</option>
+					<?php foreach ($topics as $topic): ?>
+					<option value="<?php echo htmlspecialchars($topic['id']); ?>">
+						<?php echo htmlspecialchars($topic['pavadinimas']); ?>
+					</option>
+					<?php endforeach; ?>
+				</select><br><br>
 
 				<h3>Blokai:</h3>
 				<div id="blocks-container">

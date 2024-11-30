@@ -26,23 +26,23 @@ if (!$connection) {
 	die("Failed to connect to MySQL. Error: " . mysqli_error($connection));
 }
 
-$title = $topic = $content = $message = "";
+$title = $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 	$title = trim($_POST['pavadinimas']);
 	$user_id = $_SESSION['user_id'];
 
 	if (empty($title)) {
-		$message = "Visi laukeliai yra privalomi!";
+		$message = "Pavadinimas yra privalomas!";
 	} else {
 		$sql = "INSERT INTO $table (pavadinimas, vartotojas_id) VALUES (?, ?)";
 		$stmt = $connection->prepare($sql);
 		$stmt->bind_param("si", $title, $user_id);
 
 		if ($stmt->execute()) {
-			$message = "Straipsnis sėkmingai sukurtas!";
+			$message = "Tema sėkmingai sukurta!";
 		} else {
-			$message = "Įvyko klaida kuriant straipsnį: " . $connection->error;
+			$message = "Įvyko klaida kuriant temą: " . $connection->error;
 		}
 
 		$stmt->close();
@@ -62,22 +62,18 @@ $connection->close();
 	<?php include 'navbar.php'; ?>
 
 	<div style="padding: 20px;">
-		<h1>Kurti naują straipsnį</h1>
+		<h1>Kurti naują temą</h1>
 
 		<?php if (!empty($message)): ?>
-			<p><?php echo htmlspecialchars($message); ?></p>
+		<p><?php echo htmlspecialchars($message); ?></p>
 		<?php endif; ?>
 
-		<form method="post" action="articleCreate.php">
+		<form method="post" action="topicCreate.php">
 			<label for="pavadinimas">Pavadinimas:</label><br>
 			<input type="text" id="pavadinimas" name="pavadinimas" value="<?php echo htmlspecialchars($title); ?>" required><br><br>
 
 			<input type="submit" value="Pateikti temą">
 		</form>
-
-		<div>
-			<a href="index.php">Grįžti į pradžią</a>
-		</div>
 	</div>
 </body>
 
