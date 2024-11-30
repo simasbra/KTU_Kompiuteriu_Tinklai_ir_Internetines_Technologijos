@@ -117,10 +117,13 @@ if (!$connection) {
 		FROM Straipsnis
 		JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
 		JOIN Tema ON Straipsnis.tema_id = Tema.id
-		WHERE (Tema.id NOT IN ($selected_topics_str) OR '$selected_topics_str' = '')
+		WHERE (? = '' OR Tema.id NOT IN ($selected_topics_str))
 	";
 
-	$rest_result = $connection->query($sql_rest);
+	$stmt_rest = $connection->prepare($sql_rest);
+	$stmt_rest->bind_param("s", $selected_topics_str);
+	$stmt_rest->execute();
+	$rest_result = $stmt_rest->get_result();
 
 	if (!$rest_result) {
 		die("phP is too stoOopid to read the table. Error: " . $connection->error);
