@@ -7,7 +7,7 @@ if (isset($_POST)) {
 		$result = array('error' => "Cannot connect: ".mysqli_error($dbc));
 	}
 	else {
-		$query = "INSERT INTO json (created, ip, name, email, message) VALUES
+		$query = "insert into json (created, ip, name, email, message) VALUES
 			(NOW(), '".$_SERVER['REMOTE_ADDR']."', '".htmlspecialchars($_POST['name'])."', '".htmlspecialchars($_POST['message']);
 		mysqli_close($dbc);
 		$result = array('success' => 'success');
