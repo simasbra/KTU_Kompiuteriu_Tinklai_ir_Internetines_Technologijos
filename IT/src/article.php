@@ -40,6 +40,7 @@ $blocks_sql = "
 		Straipsnis_Blokas.tekstas,
 		Paveikslelis.url,
 		Paveikslelis.pozicija
+		Paveikslelis.pavadinimas
 	FROM Straipsnis_Blokas
 	LEFT JOIN Paveikslelis ON Straipsnis_Blokas.paveikslelis_id = Paveikslelis.id
 	WHERE Straipsnis_Blokas.straipsnis_id = ?
@@ -99,7 +100,6 @@ if (count($ratings) > 0) {
 }
 
 $blocks_stmt->close();
-$avg_stmt->close();
 $stmt->close();
 $connection->close();
 ?>
@@ -115,10 +115,18 @@ $connection->close();
 
 	<div>
 		<center>
-			<h1><?php echo htmlspecialchars($article['pavadinimas']); ?></h1>
-			<h3>Tema: <?php echo htmlspecialchars($article['tema']); ?></h3>
-			<p>Autorius: <?php echo htmlspecialchars($article['vardas'] . ' ' . $article['pavarde']); ?></p>
-			<p>Sukurimo data: <?php echo htmlspecialchars($article['sukurimo_data']); ?></p>
+			<h1>
+				<?php echo htmlspecialchars($article['pavadinimas']); ?>
+			</h1>
+			<h3>Tema: &nbsp;
+				<?php echo htmlspecialchars($article['tema']); ?>
+			</h3>
+			<p>Autorius: &nbsp;
+				<?php echo htmlspecialchars($article['vardas'] . ' ' . $article['pavarde']); ?>
+			</p>
+			<p>Sukurimo data: &nbsp;
+				<?php echo htmlspecialchars($article['sukurimo_data']); ?>
+			</p>
 		</center>
 	</div>
 
@@ -128,23 +136,37 @@ $connection->close();
 				<?php if (!empty($block['url'])): ?>
 					<?php if ($block['pozicija'] === 'top'): ?>
 						<div class="image-top">
-							<img src="<?php echo htmlspecialchars($block['url']); ?>" alt="Paveikslėlis" style="max-width: 300px; max-height: 300px;">
+						<img
+							src="<?php echo htmlspecialchars($block['url']); ?>"
+							alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
+							style="max-width: 300px; max-height: 300px;">
 						</div>
 					<?php elseif ($block['pozicija'] === 'bottom'): ?>
 						<div class="image-bottom">
-							<img src="<?php echo htmlspecialchars($block['url']); ?>" alt="Paveikslėlis" style="max-width: 300px; max-height: 300px;">
+						<img
+							src="<?php echo htmlspecialchars($block['url']); ?>"
+							alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
+							style="max-width: 300px; max-height: 300px;">
 						</div>
 					<?php elseif ($block['pozicija'] === 'left'): ?>
 						<div class="image-left" style="float: left; margin-right: 10px;">
-							<img src="<?php echo htmlspecialchars($block['url']); ?>" alt="Paveikslėlis" style="max-width: 300px; max-height: 300px;">
+						<img
+							src="<?php echo htmlspecialchars($block['url']); ?>"
+							alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
+							style="max-width: 300px; max-height: 300px;">
 						</div>
 					<?php elseif ($block['pozicija'] === 'right'): ?>
 						<div class="image-right" style="float: right; margin-left: 10px;">
-							<img src="<?php echo htmlspecialchars($block['url']); ?>" alt="Paveikslėlis" style="max-width: 300px; max-height: 300px;">
+						<img
+							src="<?php echo htmlspecialchars($block['url']); ?>"
+							alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
+							style="max-width: 300px; max-height: 300px;">
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>
-				<p><?php echo nl2br(htmlspecialchars($block['tekstas'])); ?></p>
+				<p>
+					<?php echo nl2br(htmlspecialchars($block['tekstas'])); ?>
+				</p>
 				<div style="clear: both;"></div>
 			</div>
 		<?php endforeach; ?>
@@ -152,10 +174,14 @@ $connection->close();
 
 	<div class="rating-container" style="padding: 20px;">
 		<h3>Įvertinti straipsnį</h3>
-		<p>Vidutinis įvertinimas: <?php echo $avg_rating !== "N/A" ? round($avg_rating, 1) : "Nėra įvertinimų"; ?></p>
+			<p>Vidutinis įvertinimas:
+				<?php echo $avg_rating !== 0 ? round($avg_rating, 2) : "Nėra įvertinimų"; ?>
+			</p>
 
 		<?php if (!empty($rating_message)): ?>
-			<p><?php echo htmlspecialchars($rating_message); ?></p>
+			<p>
+				<?php echo htmlspecialchars($rating_message); ?>
+			</p>
 		<?php endif; ?>
 
 		<?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'Vartotojas'): ?>

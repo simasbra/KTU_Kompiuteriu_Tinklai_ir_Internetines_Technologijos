@@ -79,7 +79,7 @@ $connection->close();
 			<p><?php echo htmlspecialchars($message); ?></p>
 		<?php endif; ?>
 
-		<form method="POST" action="user_topics.php">
+		<form method="POST" action="topicChoose.php">
 			<h3>Pasirinkite temas, kurios Jus domina:</h3>
 
 			<?php if ($topics_result->num_rows > 0): ?>

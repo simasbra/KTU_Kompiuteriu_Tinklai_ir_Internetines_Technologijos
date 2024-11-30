@@ -82,7 +82,7 @@ if (!$connection) {
 				die("phP is too stoOopid to read the table. Error: " . $connection->error);
 			}
 
-			echo "<h2>Temos, kurios jus domina</h2>";
+			echo "<h2>Straipsniai, kurie jus domina</h2>";
 			echo "<table style='margin: 0px auto;' id='straipsniai'>";
 			echo "
 				<tr>
@@ -151,9 +151,9 @@ if (!$connection) {
 	}
 
 	if ($user_id === null) {
-		echo "<h2>Visos temos</h2>";
+		echo "<h2>Visi straipsniai</h2>";
 	} else {
-		echo "<h2>Kitos temos</h2>";
+		echo "<h2>Kiti straipsniai</h2>";
 	}
 
 		echo "<table style='margin: 0px auto;' id='straipsniai'>";
