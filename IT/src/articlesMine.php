@@ -55,7 +55,7 @@ if (!$connection) {
 		FROM Straipsnis
 		JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
 		JOIN Tema ON Straipsnis.tema_id = Tema.id
-		WHERE vartotojas_id='$user_id'
+		WHERE Straipsnis.vartotojas_id='$user_id'
 	";
 
 	if (!$result = $connection->query($sql)) {

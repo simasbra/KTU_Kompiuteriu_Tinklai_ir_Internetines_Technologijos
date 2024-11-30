@@ -56,10 +56,6 @@ while ($row = $blocks_result->fetch_assoc()) {
 	$blocks[] = $row;
 }
 
-$stmt->close();
-$blocks_stmt->close();
-$connection->close();
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating']) && isset($_SESSION['user_id'])) {
 	$rating = intval($_POST['rating']);
 	$user_id = $_SESSION['user_id'];
@@ -102,6 +98,7 @@ if (count($ratings) > 0) {
 	$avg_rating = "Nėra įvertinimų";
 }
 
+$blocks_stmt->close();
 $avg_stmt->close();
 $stmt->close();
 $connection->close();

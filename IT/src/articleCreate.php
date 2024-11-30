@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 
 			// Commit transaction
 			mysqli_commit($connection);
-			$message = "Straipsnis ir jo blokai sėkmingai sukurti!";
+			$message = "Straipsnis sėkmingai sukurtas!";
 		} catch (Exception $e) {
 			// Rollback transaction on error
 			mysqli_roll_back($connection);
@@ -171,7 +171,6 @@ $connection->close();
 					<?php endforeach; ?>
 				</select><br><br>
 
-				<h3>Blokai:</h3>
 				<div id="blocks-container">
 					<div class="block">
 						<label for="block-tekstas-1">Tekstas:</label><br>

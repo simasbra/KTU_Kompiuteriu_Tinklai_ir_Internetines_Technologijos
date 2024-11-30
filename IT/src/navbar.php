@@ -15,7 +15,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 		<?php if (isset($_SESSION['user_id'])): ?>
 			<li>
-				<a href="">Pasirinkti temas</a>
+				<a href="topicChoose.php">Pasirinkti temas</a>
 			</li>
 			<?php if ($_SESSION['user_role'] == 'Publisher'): ?>
 				<li>
