@@ -43,7 +43,7 @@ create table Straipsnis (
 create table Paveikslelis (
 	id int not null auto_increment,
 	pavadinimas varchar(255) not null,
-	pozicija enum('kairėje', 'dešinėje', 'apačioje', 'viršuje') default 'apačioje' not null,
+	pozicija enum("left", "right", "down", "up") default "down" not null,
 	url varchar(1024) not null,
 
 	primary key (id)
@@ -73,6 +73,6 @@ create table Vertinimas (
 );
 
 insert into Paskyros_tipas (pavadinimas) values
-	("Skaitytojas"),
-	("Rašytojas"),
-	("Administratorius");
+	("Reader"),
+	("Publisher"),
+	("Administrator");
