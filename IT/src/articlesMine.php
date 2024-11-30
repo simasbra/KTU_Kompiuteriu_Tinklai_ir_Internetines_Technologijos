@@ -3,11 +3,11 @@ if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'Vadybininkas') {
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'Publisher') {
 	echo "
 		<div style='text-align: center; margin-top: 50px;'>
 			<h2>Neturite prieigos</h2>
-			<p>Šis puslapis yra prieinamas tik vadybininkams.</p>
+			<p>Šis puslapis yra prieinamas tik raštojams.</p>
 		</div>
 	";
 	sleep(3);

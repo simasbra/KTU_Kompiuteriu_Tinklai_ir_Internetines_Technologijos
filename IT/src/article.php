@@ -13,14 +13,14 @@ $article_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 $sql = "
 		SELECT 
-		Straipsnis.pavadinimas,
-		Straipsnis.tema,
-		Straipsnis.tekstas,
-		Straipsnis.sukurimo_data,
-		Vartotojas.vardas,
-		Vartotojas.pavarde
+			Straipsnis.pavadinimas,
+			Straipsnis.sukurimo_data,
+			Tema.pavadinimas as tema,
+			Vartotojas.vardas,
+			Vartotojas.pavarde
 		FROM Straipsnis
 		JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
+		JOIN Tema ON Straipsnis.tema_id = Tema.id
 		WHERE Straipsnis.id = ?
 	";
 
@@ -34,6 +34,32 @@ if (!$article) {
 	echo "Straipsnis nerastas.";
 	exit;
 }
+
+$blocks_sql = "
+	SELECT 
+		Straipsnis_Blokas.tekstas,
+		Paveikslelis.url,
+		Paveikslelis.pozicija
+	FROM Straipsnis_Blokas
+	LEFT JOIN Paveikslelis ON Straipsnis_Blokas.paveikslelis_id = Paveikslelis.id
+	WHERE Straipsnis_Blokas.straipsnis_id = ?
+	ORDER BY Straipsnis_Blokas.id ASC
+";
+
+$blocks_stmt = $connection->prepare($blocks_sql);
+$blocks_stmt->bind_param("i", $article_id);
+$blocks_stmt->execute();
+$blocks_result = $blocks_stmt->get_result();
+
+$blocks = [];
+while ($row = $blocks_result->fetch_assoc()) {
+	$blocks[] = $row;
+}
+
+$stmt->close();
+$blocks_stmt->close();
+$connection->close();
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating']) && isset($_SESSION['user_id'])) {
 	$rating = intval($_POST['rating']);
@@ -94,7 +120,17 @@ $connection->close();
 	</div>
 
 	<div style="padding: 20px;">
-		<p><?php echo nl2br(htmlspecialchars($article['tekstas'])); ?></p>
+		<?php foreach ($blocks as $block): ?>
+			<div style="margin-bottom: 20px;">
+				<?php if (!empty($block['url'])): ?>
+					<div style="float: <?php echo htmlspecialchars($block['pozicija']); ?>; margin: 10px;">
+						<img src="<?php echo htmlspecialchars($block['url']); ?>" alt="Paveikslėlis" style="max-width: 300px; max-height: 300px;">
+					</div>
+				<?php endif; ?>
+				<p><?php echo nl2br(htmlspecialchars($block['tekstas'])); ?></p>
+				<div style="clear: both;"></div>
+			</div>
+		<?php endforeach; ?>
 	</div>
 
 	<div class="rating-container" style="padding: 20px;">

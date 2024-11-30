@@ -24,8 +24,20 @@ create table Vartotojas (
 create table Tema (
 	id int not null auto_increment,
 	pavadinimas varchar(255) not null,
+	vartotojas_id int not null,
 
-	primary key (id)
+	primary key (id),
+	foreign key (vartotojas_id) references Vartotojas(id)
+);
+
+create table VartotojasTema (
+	id int not null auto_increment,
+	vartotojas_id int not null,
+	tema_id int not null,
+
+	primary key (id),
+	foreign key (tema_id) references Tema(id),
+	foreign key (vartotojas_id) references Vartotojas(id)
 );
 
 create table Straipsnis (
@@ -44,7 +56,7 @@ create table Paveikslelis (
 	id int not null auto_increment,
 	pavadinimas varchar(255) not null,
 	pozicija enum("left", "right", "down", "up") default "down" not null,
-	url varchar(1024) not null,
+	url varchar(2047) not null,
 
 	primary key (id)
 );

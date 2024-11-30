@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if (password_verify($password, $user['slaptazodis'])) {
 			$_SESSION['user_id'] = $user['id'];
 			$_SESSION['username'] = $user['prisijungimo_vardas'];
-			$_SESSION['user_name'] = $user['vardas'] . ' ' . $user['pavarde'];
+			$_SESSION['user_name_surname'] = $user['vardas'] . ' ' . $user['pavarde'];
 			$_SESSION['user_role'] = $user['role'];
 			$_SESSION['message'] = "Sėkmingai prisijungta!";
 			header("Location: index.php");
