@@ -140,9 +140,6 @@ if (!$connection) {
 	if ($stmt_rest === false) {
 		die("phP is too stoopid to prepare the statement. Error: " . $connection->error);
 	}
-	if ($selected_topics_str !== '') {
-		$stmt_rest->bind_param("s", $selected_topics_str);
-	}
 	$stmt_rest->execute();
 	$rest_result = $stmt_rest->get_result();
 

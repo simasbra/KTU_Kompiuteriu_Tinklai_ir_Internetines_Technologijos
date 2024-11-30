@@ -39,7 +39,7 @@ $blocks_sql = "
 	SELECT 
 		Straipsnis_Blokas.tekstas,
 		Paveikslelis.url,
-		Paveikslelis.pozicija
+		Paveikslelis.pozicija,
 		Paveikslelis.pavadinimas
 	FROM Straipsnis_Blokas
 	LEFT JOIN Paveikslelis ON Straipsnis_Blokas.paveikslelis_id = Paveikslelis.id
@@ -130,7 +130,7 @@ $connection->close();
 		</center>
 	</div>
 
-	<div style="padding: 20px;">
+	<div style="padding: 20px; width: 90%;">
 		<?php foreach ($blocks as $block): ?>
 			<div style="margin-bottom: 20px;">
 				<?php if (!empty($block['url'])): ?>

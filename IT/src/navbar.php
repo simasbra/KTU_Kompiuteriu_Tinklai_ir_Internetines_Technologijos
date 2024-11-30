@@ -33,7 +33,7 @@ if (session_status() == PHP_SESSION_NONE) {
 			<?php endif; ?>
 
 			<li>
-				<a href="#">Statistika</a>
+				<a href="articleRatings.php">Statistika</a>
 			</li>
 			<li class="dropdown">
 				<a href="#" class="dropbtn"><?php echo htmlspecialchars($_SESSION['user_name_surname']); ?></a>

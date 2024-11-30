@@ -2,7 +2,7 @@
 
 # Define variables
 DB_NAME="IT"
-SQL_SCRIPT="duombaze.sql"
+SQL_SCRIPT="IT.sql"
 PHP_FILES_DIR="src"
 WEB_DIR="/var/www/html/IT"
 

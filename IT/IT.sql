@@ -92,7 +92,7 @@ CREATE TABLE `Straipsnis_Blokas` (
 --
 
 INSERT INTO `Straipsnis_Blokas` (`id`, `tekstas`, `straipsnis_id`, `paveikslelis_id`) VALUES
-(2, 'Antroje pastraipoje yra svarbu, kad nera paveikslelio', 1, NULL);
+(2, 'Labai idomus straipsnis apie gyvenima misko apsuktyje', 1, NULL);
 
 -- --------------------------------------------------------
 

@@ -66,22 +66,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 				$text = trim($block['tekstas']);
 				$image_id = null;
 
-				// If an image is provided, insert it into Paveikslelis table
 				if (!empty($block['paveikslelis_url']) && !empty($block['paveikslelis_pavadinimas']) && !empty($block['paveikslelis_pozicija'])) {
 					$image_sql = "INSERT INTO Paveikslelis (pavadinimas, url, pozicija) VALUES (?, ?, ?)";
 					$image_stmt = $connection->prepare($image_sql);
+					if ($image_stmt === false) {
+						error_log("Klaida ruošiant paveikslėlio SQL: " . $connection->error);
+						throw new Exception("Paveikslėlio SQL klaida");
+					}
 					$image_stmt->bind_param("sss", $block['paveikslelis_pavadinimas'], $block['paveikslelis_url'], $block['paveikslelis_pozicija']);
-					$image_stmt->execute();
-					// Get the id of the created image
+					if (!$image_stmt->execute()) {
+						error_log("Klaida vykdant paveikslėlio SQL: " . $connection->error);
+						throw new Exception("Paveikslėlio įterpimo klaida");
+					}
 					$image_id = $connection->insert_id;
 					$image_stmt->close();
 				}
 
-				// Insert the block
 				$block_sql = "INSERT INTO Straipsnis_Blokas (tekstas, straipsnis_id, paveikslelis_id) VALUES (?, ?, ?)";
 				$block_stmt = $connection->prepare($block_sql);
+				if ($block_stmt === false) {
+					error_log("Klaida ruošiant bloko SQL: " . $connection->error);
+					throw new Exception("Bloko SQL klaida");
+				}
 				$block_stmt->bind_param("sii", $text, $article_id, $image_id);
-				$block_stmt->execute();
+				if (!$block_stmt->execute()) {
+					error_log("Klaida vykdant bloko SQL: " . $connection->error);
+					throw new Exception("Bloko įterpimo klaida");
+				}
 				$block_stmt->close();
 			}
 
