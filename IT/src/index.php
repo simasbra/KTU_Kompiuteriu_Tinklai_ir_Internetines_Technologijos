@@ -40,7 +40,6 @@ if (!$connection) {
 	$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
 	if ($user_id !== null) {
-
 		$sql = "
 			SELECT tema_id
 			FROM Vartotojas_Tema
@@ -54,53 +53,58 @@ if (!$connection) {
 
 		$selected_topics = [];
 		while ($row = $result->fetch_assoc()) {
-		$selected_topics[] = $row['tema_id'];
+			$selected_topics[] = $row['tema_id'];
 		}
 
 		$stmt->close();
 
-		$selected_topics_str = implode(",", $selected_topics);
-		$sql = "
-			SELECT
-				Straipsnis.id,
-				Straipsnis.pavadinimas,
-				Straipsnis.sukurimo_data,
-				Tema.pavadinimas AS tema,
-				CONCAT(Vartotojas.vardas, ' ', Vartotojas.pavarde) AS autorius
-			FROM Straipsnis
-			JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
-			JOIN Tema ON Straipsnis.tema_id = Tema.id
-			WHERE Tema.id IN ($selected_topics_str)
-			ORDER BY FIELD(Tema.id, $selected_topics_str)  -- Prioritize selected topics
-		";
+		if (count($selected_topics) > 0) {
+			$selected_topics_str = implode(",", $selected_topics);
 
-		$selected_topics_result = $connection->query($sql);
+			$sql = "
+				SELECT
+					Straipsnis.id,
+					Straipsnis.pavadinimas,
+					Straipsnis.sukurimo_data,
+					Tema.pavadinimas AS tema,
+					CONCAT(Vartotojas.vardas, ' ', Vartotojas.pavarde) AS autorius
+				FROM Straipsnis
+				JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
+				JOIN Tema ON Straipsnis.tema_id = Tema.id
+				WHERE Tema.id IN ($selected_topics_str)
+				ORDER BY FIELD(Tema.id, $selected_topics_str)  -- Prioritize selected topics
+			";
 
-		if (!$selected_topics_result) {
-			die("phP is too stoOopid to read the table. Error: " . $connection->error);
+			$selected_topics_result = $connection->query($sql);
+
+			if (!$selected_topics_result) {
+				die("phP is too stoOopid to read the table. Error: " . $connection->error);
+			}
+
+			echo "<h2>Temos, kurios jus domina</h2>";
+			echo "<table style='margin: 0px auto;' id='straipsniai'>";
+			echo "
+				<tr>
+					<th>Pavadinimas</th>
+					<th>Tema</th>
+					<th>Autorius</th>
+					<th>Sukurimo data</th>
+				</tr>
+			";
+
+			while ($row = $selected_topics_result->fetch_assoc()) {
+			echo "
+				<tr onclick='navigateToStraipsnis(" . $row['id'] . ")'>
+					<td>" . $row['pavadinimas'] . "</td>
+					<td>" . $row['tema'] . "</td>
+					<td>" . $row['autorius'] . "</td>
+					<td>" . $row['sukurimo_data'] . "</td>
+				</tr>
+			";
+			}
+
+			echo "</table>";
 		}
-
-		echo "<h2>Temos, kurios jus domina</h2>";
-		echo "<table style='margin: 0px auto;' id='straipsniai'>";
-		echo "
-			<tr>
-				<th>Pavadinimas</th>
-				<th>Tema</th>
-				<th>Autorius</th>
-				<th>Sukurimo data</th>
-			</tr>
-		";
-	}
-
-	while ($row = $selected_topics_result->fetch_assoc()) {
-		echo "
-			<tr onclick='navigateToStraipsnis(" . $row['id'] . ")'>
-				<td>" . $row['pavadinimas'] . "</td>
-				<td>" . $row['tema'] . "</td>
-				<td>" . $row['autorius'] . "</td>
-				<td>" . $row['sukurimo_data'] . "</td>
-			</tr>
-		";
 	}
 
 	$sql_rest = "
@@ -113,7 +117,7 @@ if (!$connection) {
 		FROM Straipsnis
 		JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
 		JOIN Tema ON Straipsnis.tema_id = Tema.id
-		WHERE Tema.id NOT IN ($selected_topics_str)
+		WHERE (Tema.id NOT IN ($selected_topics_str) OR '$selected_topics_str' = '')
 	";
 
 	$rest_result = $connection->query($sql_rest);
@@ -122,8 +126,12 @@ if (!$connection) {
 		die("phP is too stoOopid to read the table. Error: " . $connection->error);
 	}
 
-	if ($user === null) {
+	if ($user_id === null) {
 		echo "<h2>Visos temos</h2>";
+	} else {
+		echo "<h2>Kitos temos</h2>";
+	}
+
 		echo "<table style='margin: 0px auto;' id='straipsniai'>";
 		echo "
 			<tr>
@@ -133,17 +141,16 @@ if (!$connection) {
 				<th>Sukurimo data</th>
 			</tr>
 		";
-	}
 
 	while ($row = $rest_result->fetch_assoc()) {
-	echo "
-		<tr onclick='navigateToStraipsnis(" . $row['id'] . ")'>
-			<td>" . $row['pavadinimas'] . "</td>
-			<td>" . $row['tema'] . "</td>
-			<td>" . $row['autorius'] . "</td>
-			<td>" . $row['sukurimo_data'] . "</td>
-		</tr>
-	";
+		echo "
+			<tr onclick='navigateToStraipsnis(" . $row['id'] . ")'>
+				<td>" . $row['pavadinimas'] . "</td>
+				<td>" . $row['tema'] . "</td>
+				<td>" . $row['autorius'] . "</td>
+				<td>" . $row['sukurimo_data'] . "</td>
+			</tr>
+		";
 	}
 
 	echo "</table>";
