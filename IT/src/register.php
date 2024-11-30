@@ -67,9 +67,9 @@ $connection->close();
 		<input type="text" name="surname" required><br><br>
 		<label for="paskyros_tipas_id">Pasirinkite paskyros tipą:</label>
 		<select name="paskyros_tipas_id" id="paskyros_tipas_id" required>
-			<option value="1">Reader</option>
-			<option value="2">Publisher</option>
-			<option value="3">Administrator</option>
+			<option value="1">Skaitytojas</option>
+			<option value="2">Rašytojas</option>
+			<option value="3">Administratorius</option>
 		</select><br><br>
 		<input type="submit" value="Registruotis">
 	</form>

@@ -60,7 +60,6 @@ $stmt->close();
 $blocks_stmt->close();
 $connection->close();
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating']) && isset($_SESSION['user_id'])) {
 	$rating = intval($_POST['rating']);
 	$user_id = $_SESSION['user_id'];
@@ -82,24 +81,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating']) && isset($_S
 	}
 }
 
-$avg_rating_sql = "SELECT AVG(vertinimas) AS avg_rating FROM Vertinimas WHERE straipsnis_id = ?";
-$avg_stmt = $connection->prepare($avg_rating_sql);
-if (!$avg_stmt) {
-	die("Prepare failed: (" . $connection->errno . ") " . $connection->error);
+// Get all ratings for the article
+$ratings_sql = "SELECT vertinimas FROM Vertinimas WHERE straipsnis_id = ?";
+$ratings_stmt = $connection->prepare($ratings_sql);
+$ratings_stmt->bind_param("i", $article_id);
+$ratings_stmt->execute();
+$ratings_result = $ratings_stmt->get_result();
+
+$ratings = [];
+while ($row = $ratings_result->fetch_assoc()) {
+	$ratings[] = $row['vertinimas'];
 }
 
-$avg_stmt->bind_param("i", $article_id);
-if (!$avg_stmt->execute()) {
-	die("Execute failed: (" . $avg_stmt->errno . ") " . $avg_stmt->error);
-}
+$ratings_stmt->close();
 
-$avg_result = $avg_stmt->get_result();
-$avg_rating = $avg_result->fetch_assoc()['avg_rating'];
-
-if ($avg_rating === null) {
-	$avg_rating = "Nėra įvertinimų";
-} else {
+if (count($ratings) > 0) {
+	$avg_rating = array_sum($ratings) / count($ratings);
 	$avg_rating = round($avg_rating, 1);
+} else {
+	$avg_rating = "Nėra įvertinimų";
 }
 
 $avg_stmt->close();

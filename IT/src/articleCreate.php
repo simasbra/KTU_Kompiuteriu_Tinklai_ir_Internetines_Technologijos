@@ -119,7 +119,7 @@ $connection->close();
 				<label for="block-tekstas-${blockCounter}">Tekstas:</label><br>
 				<textarea id="block-tekstas-${blockCounter}" name="blokai[${blockCounter}][tekstas]" rows="4" required></textarea><br><br>
 
-				<button type="button" onclick="toggleImageForm(${blockCounter})">Pridėti paveikslėlį</button><br><br>
+				<button class="submit-btn" type="button" onclick="toggleImageForm(${blockCounter})">Pridėti paveikslėlį</button><br><br>
 
 				<div id="image-form-${blockCounter}" style="display: none;">
 					<h4>Paveikslėlis (pasirinktinai):</h4>
@@ -177,7 +177,7 @@ $connection->close();
 						<label for="block-tekstas-1">Tekstas:</label><br>
 						<textarea id="block-tekstas-1" name="blokai[0][tekstas]" rows="4" required></textarea><br><br>
 
-						<button type="button" onclick="toggleImageForm(1)">Pridėti paveikslėlį</button><br><br>
+						<button class="submit-btn" type="button" onclick="toggleImageForm(1)">Pridėti paveikslėlį</button><br><br>
 
 						<div id="image-form-1" style="display: none;">
 							<h4>Paveikslėlis (pasirinktinai):</h4>
@@ -201,10 +201,6 @@ $connection->close();
 				<button class="submit-btn" type="button" onclick="addBlock()">Pridėti bloką</button><br><br>
 				<input class="submit-btn" type="submit" value="Pateikti straipsnį">
 			</form>
-
-			<div>
-				<a href="index.php">Grįžti į pradžią</a>
-			</div>
 		</div>
 	</body>
 

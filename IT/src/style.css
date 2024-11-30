@@ -284,3 +284,12 @@ form select {
 form select:hover {
     background-color: #163059;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-align: center;
+}

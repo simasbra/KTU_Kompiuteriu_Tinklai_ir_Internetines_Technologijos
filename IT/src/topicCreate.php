@@ -109,8 +109,7 @@ $connection->close();
 						<tr>
 							<td><?php echo htmlspecialchars($row['pavadinimas']); ?></td>
 							<td>
-								<a href="topicCreate.php?edit_id=<?php echo $row['id']; ?>">Redaguoti</a><br />
-								<a href="topicCreate.php?delete_id=<?php echo $row['id']; ?>" onclick="return confirm('Ar tikrai norite ištrinti šią temą?')">Ištrinti</a>
+								<a class="submit-btn" href="topicCreate.php?delete_id=<?php echo $row['id']; ?>" onclick="return confirm('Ar tikrai norite ištrinti šią temą?')">Ištrinti</a>
 							</td>
 						</tr>
 					<?php endwhile; ?>

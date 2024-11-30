@@ -49,7 +49,7 @@ if (!$connection) {
 			Straipsnis.id,
 			Straipsnis.pavadinimas,
 			Straipsnis.sukurimo_data,
-			Straipsnis.vartotijas_id,
+			Straipsnis.vartotojas_id,
 			Tema.pavadinimas as tema,
 			CONCAT(Vartotojas.vardas, ' ', Vartotojas.pavarde) as autorius
 		FROM Straipsnis
