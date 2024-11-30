@@ -38,6 +38,7 @@ if (!$connection) {
 
 	<?php
 	$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+	$selected_topics_str = '';
 
 	if ($user_id !== null) {
 		$sql = "
@@ -107,21 +108,41 @@ if (!$connection) {
 		}
 	}
 
-	$sql_rest = "
-		SELECT
-			Straipsnis.id,
-			Straipsnis.pavadinimas,
-			Straipsnis.sukurimo_data,
-			Tema.pavadinimas AS tema,
-			CONCAT(Vartotojas.vardas, ' ', Vartotojas.pavarde) AS autorius
-		FROM Straipsnis
-		JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
-		JOIN Tema ON Straipsnis.tema_id = Tema.id
-		WHERE (? = '' OR Tema.id NOT IN ($selected_topics_str))
-	";
+	if ($selected_topics_str === '') {
+		$sql_rest = "
+			SELECT
+				Straipsnis.id,
+				Straipsnis.pavadinimas,
+				Straipsnis.sukurimo_data,
+				Tema.pavadinimas AS tema,
+				CONCAT(Vartotojas.vardas, ' ', Vartotojas.pavarde) AS autorius
+			FROM Straipsnis
+			JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
+			JOIN Tema ON Straipsnis.tema_id = Tema.id
+		";
+	} else {
+		$sql_rest = "
+			SELECT
+				Straipsnis.id,
+				Straipsnis.pavadinimas,
+				Straipsnis.sukurimo_data,
+				Tema.pavadinimas AS tema,
+				CONCAT(Vartotojas.vardas, ' ', Vartotojas.pavarde) AS autorius
+			FROM Straipsnis
+			JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
+			JOIN Tema ON Straipsnis.tema_id = Tema.id
+			WHERE Tema.id NOT IN ($selected_topics_str)
+		";
+	}
 
 	$stmt_rest = $connection->prepare($sql_rest);
-	$stmt_rest->bind_param("s", $selected_topics_str);
+
+	if ($stmt_rest === false) {
+		die("phP is too stoopid to prepare the statement. Error: " . $connection->error);
+	}
+	if ($selected_topics_str !== '') {
+		$stmt_rest->bind_param("s", $selected_topics_str);
+	}
 	$stmt_rest->execute();
 	$rest_result = $stmt_rest->get_result();
 
