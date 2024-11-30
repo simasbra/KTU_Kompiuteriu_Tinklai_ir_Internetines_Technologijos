@@ -53,23 +53,23 @@ if (!$connection) {
 	echo "<br/>";
 	echo "<table style='margin: 0px auto;' id='straipsniai'>";
 	echo "
-				<tr>
-					<th>Pavadinimas</th>
-					<th>Tema</th>
-					<th>Autorius</th>
-					<th>Sukurimo data</th>
-				</tr>
-			";
+		<tr>
+			<th>Pavadinimas</th>
+			<th>Tema</th>
+			<th>Autorius</th>
+			<th>Sukurimo data</th>
+		</tr>
+	";
 	while ($row = $result->fetch_assoc()) {
 		echo "
-					<tr>
-						<tr onclick='navigateToStraipsnis(" . $row['id'] . ")'>
-						<td>" . $row['pavadinimas'] . "</td>
-						<td>" . $row['tema'] . "</td>
-						<td>" . $row['tema'] . "</td>
-						<td>" . $row['sukurimo_data'] . "</td>
-					</tr>
-				";
+			<tr>
+				<tr onclick='navigateToStraipsnis(" . $row['id'] . ")'>
+				<td>" . $row['pavadinimas'] . "</td>
+				<td>" . $row['tema'] . "</td>
+				<td>" . $row['tema'] . "</td>
+				<td>" . $row['sukurimo_data'] . "</td>
+			</tr>
+		";
 	}
 	?>
 
@@ -78,5 +78,3 @@ if (!$connection) {
 </body>
 
 </html>
-
-<?php $connection->close(); ?>

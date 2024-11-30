@@ -94,7 +94,13 @@ if (!$avg_stmt->execute()) {
 }
 
 $avg_result = $avg_stmt->get_result();
-$avg_rating = $avg_result->fetch_assoc()['avg_rating'] ?? "N/A";
+$avg_rating = $avg_result->fetch_assoc()['avg_rating'];
+
+if ($avg_rating === null) {
+	$avg_rating = "Nėra įvertinimų";
+} else {
+	$avg_rating = round($avg_rating, 1);
+}
 
 $avg_stmt->close();
 $stmt->close();
@@ -123,9 +129,23 @@ $connection->close();
 		<?php foreach ($blocks as $block): ?>
 			<div style="margin-bottom: 20px;">
 				<?php if (!empty($block['url'])): ?>
-					<div style="float: <?php echo htmlspecialchars($block['pozicija']); ?>; margin: 10px;">
-						<img src="<?php echo htmlspecialchars($block['url']); ?>" alt="Paveikslėlis" style="max-width: 300px; max-height: 300px;">
-					</div>
+					<?php if ($block['pozicija'] === 'top'): ?>
+						<div class="image-top">
+							<img src="<?php echo htmlspecialchars($block['url']); ?>" alt="Paveikslėlis" style="max-width: 300px; max-height: 300px;">
+						</div>
+					<?php elseif ($block['pozicija'] === 'bottom'): ?>
+						<div class="image-bottom">
+							<img src="<?php echo htmlspecialchars($block['url']); ?>" alt="Paveikslėlis" style="max-width: 300px; max-height: 300px;">
+						</div>
+					<?php elseif ($block['pozicija'] === 'left'): ?>
+						<div class="image-left" style="float: left; margin-right: 10px;">
+							<img src="<?php echo htmlspecialchars($block['url']); ?>" alt="Paveikslėlis" style="max-width: 300px; max-height: 300px;">
+						</div>
+					<?php elseif ($block['pozicija'] === 'right'): ?>
+						<div class="image-right" style="float: right; margin-left: 10px;">
+							<img src="<?php echo htmlspecialchars($block['url']); ?>" alt="Paveikslėlis" style="max-width: 300px; max-height: 300px;">
+						</div>
+					<?php endif; ?>
 				<?php endif; ?>
 				<p><?php echo nl2br(htmlspecialchars($block['tekstas'])); ?></p>
 				<div style="clear: both;"></div>

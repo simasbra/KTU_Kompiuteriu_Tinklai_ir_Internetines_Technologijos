@@ -3,7 +3,6 @@ $server = "localhost";
 $db = "IT";
 $user = "stud";
 $password = "stud";
-$table = "Straipsnis";
 $connection = mysqli_connect($server, $user, $password, $db);
 
 if (!$connection) {
@@ -34,7 +33,17 @@ if (!$connection) {
 	</div>
 
 	<?php
-	$sql =  "SELECT * FROM $table";
+	$sql = "
+		SELECT
+			Straipsnis.pavadinimas,
+			Straipsnis.sukurimo_data,
+			Tema.pavadinimas as tema,
+			Vartotojas.vardas,
+			Vartotojas.pavarde
+		FROM Straipsnis
+		JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
+		JOIN Tema ON Straipsnis.tema_id = Tema.id
+	";
 
 	if (!$result = $connection->query($sql)) {
 		die("phP is too stoOopid to read the table. Error: " . $connection->error);

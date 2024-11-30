@@ -249,3 +249,38 @@ form input[type="password"] {
 .submit-btn:hover {
     background-color: #707c8e;
 }
+
+.image-top img {
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+.image-bottom img {
+    display: block;
+    margin: 10px auto 0 auto;
+}
+
+.image-left img {
+    float: left;
+    margin-right: 10px;
+}
+
+.image-right img {
+    float: right;
+    margin-left: 10px;
+}
+
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #34495e;
+    border-radius: 5px;
+    background-color: #2c3e50;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+form select:hover {
+    background-color: #163059;
+}
