@@ -35,11 +35,11 @@ if (!$connection) {
 	<?php
 	$sql = "
 		SELECT
+			Straipsnis.id,
 			Straipsnis.pavadinimas,
 			Straipsnis.sukurimo_data,
 			Tema.pavadinimas as tema,
-			Vartotojas.vardas,
-			Vartotojas.pavarde
+			CONCAT(Vartotojas.vardas, ' ', Vartotojas.pavarde) as autorius
 		FROM Straipsnis
 		JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
 		JOIN Tema ON Straipsnis.tema_id = Tema.id
@@ -58,16 +58,16 @@ if (!$connection) {
 			<th>Autorius</th>
 			<th>Sukurimo data</th>
 		</tr>
-		";
+	";
 	while ($row = $result->fetch_assoc()) {
 		echo "
-		<tr>
-			<tr onclick='navigateToStraipsnis(" . $row['id'] . ")'>
-			<td>" . $row['pavadinimas'] . "</td>
-			<td>" . $row['tema'] . "</td>
-			<td>" . $row['tema'] . "</td>
-			<td>" . $row['sukurimo_data'] . "</td>
-		</tr>
+			<tr>
+				<tr onclick='navigateToStraipsnis(" . $row['id'] . ")'>
+				<td>" . $row['pavadinimas'] . "</td>
+				<td>" . $row['tema'] . "</td>
+				<td>" . $row['autorius'] . "</td>
+				<td>" . $row['sukurimo_data'] . "</td>
+			</tr>
 		";
 	}
 	?>

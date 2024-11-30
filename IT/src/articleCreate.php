@@ -5,10 +5,10 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'Publisher') {
 	echo "
-		<div style='text-align: center; margin-top: 50px;'>
-		<h2>Neturite prieigos</h2>
-		<p>Šis puslapis yra prieinamas tik rašytojams.</p>
-		</div>
+	<div style='text-align: center; margin-top: 50px;'>
+	<h2>Neturite prieigos</h2>
+	<p>Šis puslapis yra prieinamas tik rašytojams.</p>
+	</div>
 	";
 	sleep(3);
 	header("Location: index.php");
@@ -103,7 +103,7 @@ $connection->close();
 
 <!DOCTYPE html>
 
-<html>
+<html lang="lt">
 
 	<?php include "headGimmeHead.php"; ?>
 
@@ -119,23 +119,32 @@ $connection->close();
 				<label for="block-tekstas-${blockCounter}">Tekstas:</label><br>
 				<textarea id="block-tekstas-${blockCounter}" name="blokai[${blockCounter}][tekstas]" rows="4" required></textarea><br><br>
 
-				<h4>Paveikslėlis (pasirinktinai):</h4>
-				<label for="block-paveikslelis-pavadinimas-${blockCounter}">Pavadinimas:</label><br>
-				<input type="text" id="block-paveikslelis-pavadinimas-${blockCounter}" name="blokai[${blockCounter}][paveikslelis_pavadinimas]"><br><br>
+				<button type="button" onclick="toggleImageForm(${blockCounter})">Pridėti paveikslėlį</button><br><br>
 
-				<label for="block-paveikslelis-url-${blockCounter}">URL:</label><br>
-				<input type="text" id="block-paveikslelis-url-${blockCounter}" name="blokai[${blockCounter}][paveikslelis_url]"><br><br>
+				<div id="image-form-${blockCounter}" style="display: none;">
+					<h4>Paveikslėlis (pasirinktinai):</h4>
+					<label for="block-paveikslelis-pavadinimas-${blockCounter}">Pavadinimas:</label><br>
+					<input type="text" id="block-paveikslelis-pavadinimas-${blockCounter}" name="blokai[${blockCounter}][paveikslelis_pavadinimas]"><br><br>
 
-				<label for="block-paveikslelis-pozicija-${blockCounter}">Pozicija:</label><br>
-				<select id="block-paveikslelis-pozicija-${blockCounter}" name="blokai[${blockCounter}][paveikslelis_pozicija]">
-					<option value="top">Viršus</option>
-					<option value="bottom">Apačia</option>
-					<option value="left">Kairė</option>
-					<option value="right">Dešinė</option>
-				</select><br><br>
+					<label for="block-paveikslelis-url-${blockCounter}">URL:</label><br>
+					<input type="text" id="block-paveikslelis-url-${blockCounter}" name="blokai[${blockCounter}][paveikslelis_url]"><br><br>
+
+					<label for="block-paveikslelis-pozicija-${blockCounter}">Pozicija:</label><br>
+					<select id="block-paveikslelis-pozicija-${blockCounter}" name="blokai[${blockCounter}][paveikslelis_pozicija]">
+						<option value="top">Viršus</option>
+						<option value="bottom">Apačia</option>
+						<option value="left">Kairė</option>
+						<option value="right">Dešinė</option>
+					</select><br><br>
+				</div>
 			`;
 			container.appendChild(newBlock);
 			blockCounter++;
+		}
+
+		function toggleImageForm(blockId) {
+			const form = document.getElementById(`image-form-${blockId}`);
+			form.style.display = form.style.display === 'none' ? 'block' : 'none';
 		}
 		</script>
 
@@ -168,25 +177,29 @@ $connection->close();
 						<label for="block-tekstas-1">Tekstas:</label><br>
 						<textarea id="block-tekstas-1" name="blokai[0][tekstas]" rows="4" required></textarea><br><br>
 
-						<h4>Paveikslėlis (pasirinktinai):</h4>
-						<label for="block-paveikslelis-pavadinimas-1">Pavadinimas:</label><br>
-						<input type="text" id="block-paveikslelis-pavadinimas-1" name="blokai[0][paveikslelis_pavadinimas]"><br><br>
+						<button type="button" onclick="toggleImageForm(1)">Pridėti paveikslėlį</button><br><br>
 
-						<label for="block-paveikslelis-url-1">URL:</label><br>
-						<input type="text" id="block-paveikslelis-url-1" name="blokai[0][paveikslelis_url]"><br><br>
+						<div id="image-form-1" style="display: none;">
+							<h4>Paveikslėlis (pasirinktinai):</h4>
+							<label for="block-paveikslelis-pavadinimas-1">Pavadinimas:</label><br>
+							<input type="text" id="block-paveikslelis-pavadinimas-1" name="blokai[0][paveikslelis_pavadinimas]"><br><br>
 
-						<label for="block-paveikslelis-pozicija-1">Pozicija:</label><br>
-						<select id="block-paveikslelis-pozicija-1" name="blokai[0][paveikslelis_pozicija]">
-							<option value="top">Top</option>
-							<option value="bottom">Bottom</option>
-							<option value="left">Left</option>
-							<option value="right">Right</option>
-						</select><br><br>
+							<label for="block-paveikslelis-url-1">URL:</label><br>
+							<input type="text" id="block-paveikslelis-url-1" name="blokai[0][paveikslelis_url]"><br><br>
+
+							<label for="block-paveikslelis-pozicija-1">Pozicija:</label><br>
+							<select id="block-paveikslelis-pozicija-1" name="blokai[0][paveikslelis_pozicija]">
+								<option value="top">Viršus</option>
+								<option value="bottom">Apačia</option>
+								<option value="left">Kairė</option>
+								<option value="right">Dešinė</option>
+							</select><br><br>
+						</div>
 					</div>
 				</div>
 
-				<button type="button" onclick="addBlock()">Pridėti bloką</button><br><br>
-				<input type="submit" value="Pateikti straipsnį">
+				<button class="submit-btn" type="button" onclick="addBlock()">Pridėti bloką</button><br><br>
+				<input class="submit-btn" type="submit" value="Pateikti straipsnį">
 			</form>
 
 			<div>
@@ -196,3 +209,4 @@ $connection->close();
 	</body>
 
 </html>
+

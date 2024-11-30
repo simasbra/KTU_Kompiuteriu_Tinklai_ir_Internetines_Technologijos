@@ -44,7 +44,19 @@ if (!$connection) {
 	<?php include "navbar.php"; ?>
 
 	<?php
-	$sql =  "SELECT * FROM $table WHERE vartotojas_id='$user_id'";
+	$sql = "
+		SELECT
+			Straipsnis.id,
+			Straipsnis.pavadinimas,
+			Straipsnis.sukurimo_data,
+			Straipsnis.vartotijas_id,
+			Tema.pavadinimas as tema,
+			CONCAT(Vartotojas.vardas, ' ', Vartotojas.pavarde) as autorius
+		FROM Straipsnis
+		JOIN Vartotojas ON Straipsnis.vartotojas_id = Vartotojas.id
+		JOIN Tema ON Straipsnis.tema_id = Tema.id
+		WHERE vartotojas_id='$user_id'
+	";
 
 	if (!$result = $connection->query($sql)) {
 		die("phP is too stoOopid to read the table. Error: " . $connection->error);
@@ -66,15 +78,12 @@ if (!$connection) {
 				<tr onclick='navigateToStraipsnis(" . $row['id'] . ")'>
 				<td>" . $row['pavadinimas'] . "</td>
 				<td>" . $row['tema'] . "</td>
-				<td>" . $row['tema'] . "</td>
+				<td>" . $row['autorius'] . "</td>
 				<td>" . $row['sukurimo_data'] . "</td>
 			</tr>
 		";
 	}
 	?>
-
-	<div>
-	</div>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
-<?php
-if (session_status() == PHP_SESSION_NONE) {
+<?ph
+	<?php
+	if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 
@@ -28,6 +29,7 @@ if (!$connection) {
 
 $title = $message = "";
 
+// Create new topic
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 	$title = trim($_POST['pavadinimas']);
 	$user_id = $_SESSION['user_id'];
@@ -41,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 
 		if ($stmt->execute()) {
 			$message = "Tema sėkmingai sukurta!";
+			$title = '';
 		} else {
 			$message = "Įvyko klaida kuriant temą: " . $connection->error;
 		}
@@ -49,12 +52,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 	}
 }
 
+// Fetch all topics
+$sql = "SELECT * FROM $table";
+$topics_result = $connection->query($sql);
+
+// Delete selected topci
+if (isset($_GET['delete_id'])) {
+	$delete_id = $_GET['delete_id'];
+	$delete_sql = "DELETE FROM $table WHERE id = ?";
+	$delete_stmt = $connection->prepare($delete_sql);
+	$delete_stmt->bind_param("i", $delete_id);
+	$delete_stmt->execute();
+	$delete_stmt->close();
+	header("Location: topicCreate.php");
+	exit();
+}
+
 $connection->close();
 ?>
 
 <!DOCTYPE html>
 
-<html>
+<html lang="lt">
 
 <?php include "headGimmeHead.php"; ?>
 
@@ -74,6 +93,33 @@ $connection->close();
 
 			<input type="submit" value="Pateikti temą">
 		</form>
+
+		<h2>Visos temos</h2>
+		<?php if ($topics_result->num_rows > 0): ?>
+			<table border="1" cellpadding="10" style="width: 100%; background-color: #1b2a40; color: white;">
+				<thead>
+					<tr>
+						<th>Pavadinimas</th>
+						<th>Veiksmai</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<?php while ($row = $topics_result->fetch_assoc()): ?>
+						<tr>
+							<td><?php echo htmlspecialchars($row['pavadinimas']); ?></td>
+							<td>
+								<a href="topicCreate.php?edit_id=<?php echo $row['id']; ?>">Redaguoti</a><br />
+								<a href="topicCreate.php?delete_id=<?php echo $row['id']; ?>" onclick="return confirm('Ar tikrai norite ištrinti šią temą?')">Ištrinti</a>
+							</td>
+						</tr>
+					<?php endwhile; ?>
+				</tbody>
+			</table>
+
+		<?php else: ?>
+			<p>Šiuo metu nėra jokių temų.</p>
+		<?php endif; ?>
 	</div>
 </body>
 
