@@ -92,11 +92,10 @@ insert into Paskyros_tipas (pavadinimas) values
 
 -- dump
 
-INSERT INTO `Straipsnis` (`id`, `pavadinimas`, `sukurimo_data`, `vartotojas_id`, `tema_id`) VALUES
-(1, 'Sveikas gyvenimas misko apsuptyje', '2024-12-01 01:04:27', 1, 1);
-
-INSERT INTO `Straipsnis_Blokas` (`id`, `tekstas`, `straipsnis_id`, `paveikslelis_id`) VALUES
-(2, 'Labai idomus straipsnis apie gyvenima misko apsuktyje', 1, NULL);
+INSERT INTO `Vartotojas` (`id`, `prisijungimo_vardas`, `slaptazodis`, `vardas`, `pavarde`, `paskyros_tipas_id`) VALUES
+(1, 'rasytojas', '$2y$10$8FbuaePSEtJNQl72EK1uFOlOAiz8Oar.5vnrffgRzx5JEW2h/9wcm', 'Simas', 'Rasytojas', 2),
+(2, 'admin', '$2y$10$OQRCYeBplJUfPcgOWqMqk.ffkN.e02GbOsavpskXlcIcR5.9EqF9y', 'Simas', 'Administratorius', 3),
+(3, 'skaitytojas', '$2y$10$AZxuDHhJOjtYGoT3a.0JSud3UnoQg2BskH/6Z6LsEpMp5Dcw6FJ0W', 'Simas', 'Skaitytojas', 1);
 
 INSERT INTO `Tema` (`id`, `pavadinimas`, `vartotojas_id`) VALUES
 (1, 'Sveikas gyvenimas', 2),
@@ -107,7 +106,9 @@ INSERT INTO `Tema` (`id`, `pavadinimas`, `vartotojas_id`) VALUES
 (6, 'Juokeliai', 2),
 (7, 'Geras miegas', 2);
 
-INSERT INTO `Vartotojas` (`id`, `prisijungimo_vardas`, `slaptazodis`, `vardas`, `pavarde`, `paskyros_tipas_id`) VALUES
-(1, 'rasytojas', '$2y$10$8FbuaePSEtJNQl72EK1uFOlOAiz8Oar.5vnrffgRzx5JEW2h/9wcm', 'Simas', 'Rasytojas', 2),
-(2, 'admin', '$2y$10$OQRCYeBplJUfPcgOWqMqk.ffkN.e02GbOsavpskXlcIcR5.9EqF9y', 'Simas', 'Administratorius', 3),
-(3, 'skaitytojas', '$2y$10$AZxuDHhJOjtYGoT3a.0JSud3UnoQg2BskH/6Z6LsEpMp5Dcw6FJ0W', 'Simas', 'Skaitytojas', 1);
+INSERT INTO `Straipsnis` (`id`, `pavadinimas`, `sukurimo_data`, `vartotojas_id`, `tema_id`) VALUES
+(1, 'Sveikas gyvenimas misko apsuptyje', '2024-11-28 01:04:27', 1, 1);
+
+INSERT INTO `Straipsnis_Blokas` (`id`, `tekstas`, `straipsnis_id`, `paveikslelis_id`) VALUES
+(2, 'Labai idomus straipsnis apie gyvenima misko apsuktyje', 1, NULL);
+
