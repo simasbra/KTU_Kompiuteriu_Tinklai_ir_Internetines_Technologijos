@@ -50,59 +50,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 	if (empty($title) || empty($topic_id) || empty($blocks)) {
 		$message = "Visi laukeliai yra privalomi!";
 	} else {
-		// Start transaction
-		mysqli_begin_transaction($connection);
+		// Insert the article
+		$article_sql = "INSERT INTO Straipsnis (pavadinimas, sukurimo_data, vartotojas_id, tema_id) VALUES (?, ?, ?, ?)";
+		$article_stmt = $connection->prepare($article_sql);
+		$article_stmt->bind_param("ssii", $title, $creation_date, $user_id, $topic_id);
 
-		try {
-			// Insert the article
-			$article_sql = "INSERT INTO Straipsnis (pavadinimas, sukurimo_data, vartotojas_id, tema_id) VALUES (?, ?, ?, ?)";
-			$article_stmt = $connection->prepare($article_sql);
-			$article_stmt->bind_param("ssii", $title, $creation_date, $user_id, $topic_id);
-			$article_stmt->execute();
-			$article_id = $connection->insert_id;
+		if ($article_stmt->execute()) {
+			$article_id = $connection->insert_id; // Get inserted article ID
 
-			// Insert the blocks
+			// Process each block
 			foreach ($blocks as $block) {
 				$text = trim($block['tekstas']);
 				$image_id = null;
 
+				// Insert image if provided
 				if (!empty($block['paveikslelis_url']) && !empty($block['paveikslelis_pavadinimas']) && !empty($block['paveikslelis_pozicija'])) {
 					$image_sql = "INSERT INTO Paveikslelis (pavadinimas, url, pozicija) VALUES (?, ?, ?)";
 					$image_stmt = $connection->prepare($image_sql);
-					if ($image_stmt === false) {
-						error_log("Klaida ruošiant paveikslėlio SQL: " . $connection->error);
-						throw new Exception("Paveikslėlio SQL klaida");
-					}
 					$image_stmt->bind_param("sss", $block['paveikslelis_pavadinimas'], $block['paveikslelis_url'], $block['paveikslelis_pozicija']);
-					if (!$image_stmt->execute()) {
-						error_log("Klaida vykdant paveikslėlio SQL: " . $connection->error);
-						throw new Exception("Paveikslėlio įterpimo klaida");
+
+					if ($image_stmt->execute()) {
+						$image_id = $connection->insert_id; // Get inserted image ID
+					} else {
+						$message = "Klaida įrašant paveikslėlį: " . $connection->error;
+						continue; // Skip this block and proceed with others
 					}
-					$image_id = $connection->insert_id;
-					$image_stmt->close();
 				}
 
+				// Insert block
 				$block_sql = "INSERT INTO Straipsnis_Blokas (tekstas, straipsnis_id, paveikslelis_id) VALUES (?, ?, ?)";
 				$block_stmt = $connection->prepare($block_sql);
-				if ($block_stmt === false) {
-					error_log("Klaida ruošiant bloko SQL: " . $connection->error);
-					throw new Exception("Bloko SQL klaida");
-				}
 				$block_stmt->bind_param("sii", $text, $article_id, $image_id);
+
 				if (!$block_stmt->execute()) {
-					error_log("Klaida vykdant bloko SQL: " . $connection->error);
-					throw new Exception("Bloko įterpimo klaida");
+					$message = "Klaida įrašant bloką: " . $connection->error;
+					continue; // Skip this block and proceed with others
 				}
-				$block_stmt->close();
 			}
 
-			// Commit transaction
-			mysqli_commit($connection);
 			$message = "Straipsnis sėkmingai sukurtas!";
-		} catch (Exception $e) {
-			// Rollback transaction on error
-			mysqli_roll_back($connection);
-			$message = "Įvyko klaida: " . $e->getMessage();
+		} else {
+			$message = "Klaida įrašant straipsnį: " . $connection->error;
 		}
 
 		$article_stmt->close();

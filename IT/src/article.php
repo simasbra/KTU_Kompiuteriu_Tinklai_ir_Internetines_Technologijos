@@ -164,7 +164,7 @@ $connection->close();
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>
-				<p>
+				<p style="text-align: center;">
 					<?php echo nl2br(htmlspecialchars($block['tekstas'])); ?>
 				</p>
 				<div style="clear: both;"></div>
