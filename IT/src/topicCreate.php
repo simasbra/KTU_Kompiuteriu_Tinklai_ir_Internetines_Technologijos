@@ -80,7 +80,7 @@ $connection->close();
 <body>
 	<?php include 'navbar.php'; ?>
 
-	<div style="padding: 20px;">
+	<div style="margin: 0 auto; max-width: 800px; padding: 20px;">
 		<h1>Kurti naują temą</h1>
 
 		<?php if (!empty($message)): ?>

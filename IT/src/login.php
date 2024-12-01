@@ -68,29 +68,31 @@ $connection->close();
 <body>
 	<?php include "navbar.php"; ?>
 
-	<div class="form-container">
-		<h2>Prisijungti</h2>
-		<?php
-		if (isset($_SESSION['message'])) {
-			echo "<div class='message-box'>" . $_SESSION['message'] . "</div>";
-			unset($_SESSION['message']);
-		}
-		?>
-		<form method="POST" action="login.php">
-			<div class="form-group">
-				<label for="username">Vartotojo vardas:</label>
-				<input type="text" name="username" id="username" required>
-			</div>
-			<div class="form-group">
-				<label for="password">Slaptažodis:</label>
-				<input type="password" name="password" id="password" required>
-			</div>
-			<input type="submit" value="Prisijungti" class="submit-btn">
-		</form>
-		<p>
-			Dar neturite paskyros?
-			<a href="register.php">Registruotis</a>
-		</p>
+	<div style="margin: 0 auto; max-width: 800px; padding: 20px;">
+		<div class="form-container">
+			<h2>Prisijungti</h2>
+			<?php
+			if (isset($_SESSION['message'])) {
+				echo "<div class='message-box'>" . $_SESSION['message'] . "</div>";
+				unset($_SESSION['message']);
+			}
+			?>
+			<form method="POST" action="login.php">
+				<div class="form-group">
+					<label for="username">Vartotojo vardas:</label>
+					<input type="text" name="username" id="username" required>
+				</div>
+				<div class="form-group">
+					<label for="password">Slaptažodis:</label>
+					<input type="password" name="password" id="password" required>
+				</div>
+				<input type="submit" value="Prisijungti" class="submit-btn">
+			</form>
+			<p>
+				Dar neturite paskyros?
+				<a href="register.php">Registruotis</a>
+			</p>
+		</div>
 	</div>
 </body>
 

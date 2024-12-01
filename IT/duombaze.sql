@@ -94,7 +94,7 @@ create table Kontaktas (
 
 	primary key (id),
 	foreign key (vartotojas_id) references Vartotojas(id),
-	foreign key (tema_id) references Tema(id),
+	foreign key (tema_id) references Tema(id)
 );
 
 insert into Paskyros_tipas (pavadinimas) values

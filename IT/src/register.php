@@ -47,32 +47,36 @@ $connection->close();
 <body>
 	<?php include "navbar.php"; ?>
 
-	<h2>Registracija</h2>
+	<div style="margin: 0 auto; max-width: 800px; padding: 20px;">
+		<h2>Registracija</h2>
 
-	<?php
-	if (isset($_SESSION['message'])) {
-		echo "<p>" . $_SESSION['message'] . "</p>";
-		unset($_SESSION['message']);
-	}
-	?>
+		<?php
+		if (isset($_SESSION['message'])) {
+			echo "<p>" . $_SESSION['message'] . "</p>";
+			unset($_SESSION['message']);
+		}
+		?>
 
-	<form method="POST" action="register.php">
-		<label for="username">Vartotojo vardas:</label>
-		<input type="text" name="username" required><br><br>
-		<label for="password">Slaptažodis:</label>
-		<input type="password" name="password" required><br><br>
-		<label for="name">Vardas:</label>
-		<input type="text" name="name" required><br><br>
-		<label for="surname">Pavardė:</label>
-		<input type="text" name="surname" required><br><br>
-		<label for="paskyros_tipas_id">Pasirinkite paskyros tipą:</label>
-		<select name="paskyros_tipas_id" id="paskyros_tipas_id" required>
-			<option value="1">Skaitytojas</option>
-			<option value="2">Rašytojas</option>
-			<option value="3">Administratorius</option>
-		</select><br><br>
-		<input type="submit" value="Registruotis">
-	</form>
+		<div class="form-container">
+			<form method="POST" action="register.php">
+				<label for="username">Vartotojo vardas:</label>
+				<input type="text" name="username" required><br><br>
+				<label for="password">Slaptažodis:</label>
+				<input type="password" name="password" required><br><br>
+				<label for="name">Vardas:</label>
+				<input type="text" name="name" required><br><br>
+				<label for="surname">Pavardė:</label>
+				<input type="text" name="surname" required><br><br>
+				<label for="paskyros_tipas_id">Pasirinkite paskyros tipą:</label>
+				<select name="paskyros_tipas_id" id="paskyros_tipas_id" required>
+					<option value="1">Skaitytojas</option>
+					<option value="2">Rašytojas</option>
+					<option value="3">Administratorius</option>
+				</select><br><br>
+				<input type="submit" value="Registruotis">
+			</form>
+		</div>
+	</div>
 </body>
 
 </html>

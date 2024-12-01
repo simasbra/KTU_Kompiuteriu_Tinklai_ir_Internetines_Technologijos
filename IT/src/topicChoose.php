@@ -73,30 +73,32 @@ $connection->close();
 <body>
 	<?php include 'navbar.php'; ?>
 
-	<div class="form-container">
-		<h1>Pasirinkite temas</h1>
+	<div style="margin: 0 auto; max-width: 800px; padding: 20px;">
+		<div class="form-container">
+			<h1>Pasirinkite temas</h1>
 
-		<?php if (isset($message)): ?>
-			<p><?php echo htmlspecialchars($message); ?></p>
-		<?php endif; ?>
-
-		<form method="POST" action="topicChoose.php">
-			<h3>Pasirinkite temas, kurios Jus domina:</h3>
-
-			<?php if ($topics_result->num_rows > 0): ?>
-				<?php while ($topic = $topics_result->fetch_assoc()): ?>
-					<label>
-					<input type="checkbox" name="topics[]" value="<?php echo $topic['id']; ?>" 
-					<?php echo in_array($topic['id'], $selected_topics) ? 'checked' : ''; ?>>
-					<?php echo htmlspecialchars($topic['pavadinimas']); ?>
-					</label><br>
-				<?php endwhile; ?>
-			<?php else: ?>
-				<p>Šiuo metu nėra jokių temų.</p>
+			<?php if (isset($message)): ?>
+				<p><?php echo htmlspecialchars($message); ?></p>
 			<?php endif; ?>
 
-			<input class="submit-btn" type="submit" value="Išsaugoti pasirinkimus">
-		</form>
+			<form method="POST" action="topicChoose.php">
+				<h3>Pasirinkite temas, kurios Jus domina:</h3>
+
+				<?php if ($topics_result->num_rows > 0): ?>
+					<?php while ($topic = $topics_result->fetch_assoc()): ?>
+						<label>
+						<input type="checkbox" name="topics[]" value="<?php echo $topic['id']; ?>" 
+						<?php echo in_array($topic['id'], $selected_topics) ? 'checked' : ''; ?>>
+						<?php echo htmlspecialchars($topic['pavadinimas']); ?>
+						</label><br>
+					<?php endwhile; ?>
+				<?php else: ?>
+					<p>Šiuo metu nėra jokių temų.</p>
+				<?php endif; ?>
+
+				<input class="submit-btn" type="submit" value="Išsaugoti pasirinkimus">
+			</form>
+		</div>
 	</div>
 
 </body>

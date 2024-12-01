@@ -46,17 +46,17 @@ $connection->close();
 <body>
 	<?php include 'navbar.php'; ?>
 
-	<div style="padding: 20px;">
+	<div style="margin: 0 auto; max-width: 800px; padding: 20px;">
 		<h1>Kontaktų sąrašas</h1>
 
 		<?php if (!empty($contacts)): ?>
-			<table border="1" style="width: 100%; text-align: left;">
+			<table style='margin: 0px auto;' id='straipsniai'>
 				<tr>
 					<th>Telefonas</th>
 					<th>El. paštas</th>
 					<th>Aprašymas</th>
 					<th>Tema</th>
-					<th>Pridėjo</th>
+					<th>Asmuo</th>
 				</tr>
 				<?php foreach ($contacts as $contact): ?>
 					<tr>
@@ -69,7 +69,9 @@ $connection->close();
 				<?php endforeach; ?>
 			</table>
 		<?php else: ?>
-			<p>Kontaktų nėra.</p>
+			<center>
+				<p>Kontaktų nėra.</p>
+			</center>
 		<?php endif; ?>
 	</div>
 </body>

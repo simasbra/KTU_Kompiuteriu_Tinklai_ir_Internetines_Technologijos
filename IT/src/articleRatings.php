@@ -50,13 +50,14 @@ mysqli_close($connection);
 
 	<?php include 'navbar.php'; ?>
 
-	<h1>Populiariausios 5 Temos</h1>
-
-	<div style="width: 50%; margin: auto;">
-		<canvas id="barChart"></canvas>
-	</div>
-	<div style="width: 50%; margin: auto;">
-		<canvas id="pieChart"></canvas>
+	<div style="margin: 0 auto; max-width: 800px; padding: 20px;">
+		<h1>Populiariausios 5 Temos</h1>
+		<div style="width: 50%; margin: auto;">
+			<canvas id="barChart"></canvas>
+		</div>
+		<div style="width: 50%; margin: auto;">
+			<canvas id="pieChart"></canvas>
+		</div>
 	</div>
 
 	<script>

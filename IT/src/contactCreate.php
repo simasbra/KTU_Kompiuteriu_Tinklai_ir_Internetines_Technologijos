@@ -67,43 +67,44 @@ $connection->close();
 ?>
 
 <!DOCTYPE html>
+
 <html lang="lt">
 
 <?php include "headGimmeHead.php"; ?>
 
 <body>
-    <?php include 'navbar.php'; ?>
+	<?php include 'navbar.php'; ?>
 
-    <div style="padding: 20px;">
-        <h1>Pridėti naują kontaktą</h1>
+	<div style="margin: 0 auto; max-width: 800px; padding: 20px;">
+		<h1>Pridėti naują kontaktą</h1>
 
-        <?php if (!empty($message)): ?>
-        <p><?php echo htmlspecialchars($message); ?></p>
-        <?php endif; ?>
+		<?php if (!empty($message)): ?>
+			<p><?php echo htmlspecialchars($message); ?></p>
+		<?php endif; ?>
 
-        <form method="post" action="kontaktaiCreate.php">
-            <label for="telefonas">Telefonas:</label><br>
-            <input type="text" id="telefonas" name="telefonas"><br><br>
+		<form method="post" action="contactCreate.php">
+			<label for="telefonas">Telefonas:</label><br>
+			<input type="text" id="telefonas" name="telefonas"><br><br>
 
-            <label for="epastas">El. paštas:</label><br>
-            <input type="email" id="epastas" name="epastas"><br><br>
+			<label for="epastas">El. paštas:</label><br>
+			<input type="email" id="epastas" name="epastas"><br><br>
 
-            <label for="aprasymas">Aprašymas:</label><br>
-            <textarea id="aprasymas" name="aprasymas" rows="4"></textarea><br><br>
+			<label for="aprasymas">Aprašymas:</label><br>
+			<textarea id="aprasymas" name="aprasymas" rows="4"></textarea><br><br>
 
-            <label for="tema">Tema:</label><br>
-            <select id="tema" name="tema" required>
-                <option value="">Pasirinkite temą</option>
-                <?php foreach ($topics as $topic): ?>
-                <option value="<?php echo htmlspecialchars($topic['id']); ?>">
-                    <?php echo htmlspecialchars($topic['pavadinimas']); ?>
-                </option>
-                <?php endforeach; ?>
-            </select><br><br>
+			<label for="tema">Paslauga:</label><br>
+			<select id="tema" name="tema" required>
+				<option value="">Pasirinkite paslaugą</option>
+				<?php foreach ($topics as $topic): ?>
+					<option value="<?php echo htmlspecialchars($topic['id']); ?>">
+					<?php echo htmlspecialchars($topic['pavadinimas']); ?>
+					</option>
+				<?php endforeach; ?>
+			</select><br><br>
 
-            <input class="submit-btn" type="submit" value="Pridėti kontaktą">
-        </form>
-    </div>
+			<input class="submit-btn" type="submit" value="Pridėti kontaktą">
+		</form>
+	</div>
 </body>
 
 </html>
