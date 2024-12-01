@@ -50,7 +50,7 @@ mysqli_close($connection);
 
 	<?php include 'navbar.php'; ?>
 
-	<div style="margin: 0 auto; max-width: 800px; padding: 20px;">
+	<div style="margin: 0 auto; max-width: 1200px; padding: 20px;">
 		<h1>Populiariausios 5 Temos</h1>
 		<div style="width: 50%; margin: auto;">
 			<canvas id="barChart"></canvas>

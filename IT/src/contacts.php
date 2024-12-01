@@ -46,7 +46,7 @@ $connection->close();
 <body>
 	<?php include 'navbar.php'; ?>
 
-	<div style="margin: 0 auto; max-width: 800px; padding: 20px;">
+	<div style="padding: 20px;">
 		<h1>Kontaktų sąrašas</h1>
 
 		<?php if (!empty($contacts)): ?>
