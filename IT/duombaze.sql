@@ -84,6 +84,19 @@ create table Vertinimas (
 	foreign key (straipsnis_id) references Straipsnis(id)
 );
 
+create table Kontaktas (
+	id int not null auto_increment,
+	telefonas varchar(255),
+	epastas varchar(255),
+	aprasymas text,
+	vartotojas_id int not null,
+	tema_id int not null,
+
+	primary key (id),
+	foreign key (vartotojas_id) references Vartotojas(id),
+	foreign key (tema_id) references Tema(id),
+);
+
 insert into Paskyros_tipas (pavadinimas) values
 	("Reader"),
 	("Publisher"),
@@ -97,7 +110,7 @@ INSERT INTO `Vartotojas` (`id`, `prisijungimo_vardas`, `slaptazodis`, `vardas`, 
 (1, 'rasytojas', '$2y$10$8FbuaePSEtJNQl72EK1uFOlOAiz8Oar.5vnrffgRzx5JEW2h/9wcm', 'Simas', 'Rasytojas', 2),
 (2, 'admin', '$2y$10$OQRCYeBplJUfPcgOWqMqk.ffkN.e02GbOsavpskXlcIcR5.9EqF9y', 'Simas', 'Administratorius', 3),
 (3, 'skaitytojas', '$2y$10$AZxuDHhJOjtYGoT3a.0JSud3UnoQg2BskH/6Z6LsEpMp5Dcw6FJ0W', 'Simas', 'Skaitytojas', 1),
-(4, 'antanas', '$2y$10$uEY6vkm8bmTBvlHJwTyRnOqdQRvga6vkbN0Wxh6vSUIyrt.aTWGDe', 'Antanas', 'Antanas', 1),
+(4, 'antanas', '$2y$10$uEY6vkm8bmTBvlHJwTyRnOqdQRvga6vkbN0Wxh6vSUIyrt.aTWGDe', 'Antanas', 'Antanas', 1);
 
 -- Tema
 
