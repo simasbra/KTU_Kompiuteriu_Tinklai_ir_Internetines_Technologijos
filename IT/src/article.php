@@ -145,9 +145,9 @@ $connection->close();
 			</center>
 		</div>
 
-		<div style="padding: 20px; width: 90%;">
+		<div>
 			<?php foreach ($blocks as $block): ?>
-				<div style="margin-bottom: 20px;">
+				<div style="margin-bottom: 50px;">
 					<?php if (!empty($block['url'])): ?>
 						<?php if ($block['pozicija'] === 'top'): ?>
 							<div class="image-top">
@@ -179,7 +179,7 @@ $connection->close();
 							</div>
 						<?php endif; ?>
 					<?php endif; ?>
-					<p style="text-align: center;">
+					<p>
 						<?php echo nl2br(htmlspecialchars($block['tekstas'])); ?>
 					</p>
 					<div style="clear: both;"></div>

@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 
 		if ($article_stmt->execute()) {
 			$article_id = $connection->insert_id;
-			$message .= "Straipsnis sėkmingai sukurtas!<br>";
+			$message .= "Straipsnis sėkmingai sukurtas!";
 
 			if (!empty($blocks) && is_array($blocks)) {
 				foreach ($blocks as $block) {
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 					$image_id = null;
 
 					if (empty($text)) {
-						$message .= "Blokas praleistas dėl trūkstamo teksto.<br>";
+						$message .= "Blokas praleistas dėl trūkstamo teksto.";
 						continue;
 					}
 
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 						if ($image_stmt->execute()) {
 							$image_id = $connection->insert_id;
 						} else {
-							$message .= "Klaida įrašant paveikslėlį: " . $connection->error . "<br>";
+							$message .= "Klaida įrašant paveikslėlį: " . $connection->error . "";
 							continue;
 						}
 					}
@@ -86,13 +86,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 					$block_stmt->bind_param("sii", $text, $article_id, $image_id);
 
 					if ($block_stmt->execute()) {
-						$message .= "Blokas sėkmingai pridėtas.<br>";
+						$message .= "Blokas sėkmingai pridėtas.";
 					} else {
-						$message .= "Klaida įrašant bloką: " . $connection->error . "<br>";
+						$message .= "Klaida įrašant bloką: " . $connection->error . "";
 					}
 				}
 			} else {
-				$message .= "Blokų nėra arba jie netinkamai perduoti.<br>";
+				$message .= "Blokų nėra arba jie netinkamai perduoti.";
 			}
 		} else {
 			$message = "Klaida įrašant straipsnį: " . $connection->error;
@@ -109,10 +109,10 @@ $connection->close();
 
 <html lang="lt">
 
-	<?php include "headGimmeHead.php"; ?>
+<?php include "headGimmeHead.php"; ?>
 
-	<body>
-		<script>
+<body>
+	<script>
 		let blockCounter = 2;
 
 		function addBlock() {
@@ -150,61 +150,61 @@ $connection->close();
 			const form = document.getElementById(`image-form-${blockId}`);
 			form.style.display = form.style.display === 'none' ? 'block' : 'none';
 		}
-		</script>
+	</script>
 
-		<?php include 'navbar.php'; ?>
+	<?php include 'navbar.php'; ?>
 
-		<div style="padding: 20px;">
-			<h1>Kurti naują straipsnį</h1>
+	<div style="padding: 20px;">
+		<h1>Kurti naują straipsnį</h1>
 
-			<?php if (!empty($message)): ?>
-			<p><?php echo htmlspecialchars($message); ?></p>
-			<?php endif; ?>
+		<?php if (!empty($message)): ?>
+		<p><?php echo htmlspecialchars($message); ?></p>
+		<?php endif; ?>
 
-			<form method="post" action="articleCreate.php">
-				<label for="pavadinimas">Pavadinimas:</label><br>
-				<input type="text" id="pavadinimas" name="pavadinimas" value="<?php echo htmlspecialchars($title); ?>" required><br><br>
+		<form method="post" action="articleCreate.php">
+			<label for="pavadinimas">Pavadinimas:</label><br>
+			<input type="text" id="pavadinimas" name="pavadinimas" value="<?php echo htmlspecialchars($title); ?>" required><br><br>
 
-				<label for="tema">Tema:</label><br>
-				<select id="tema" name="tema" required>
-					<option value="">Pasirinkite temą</option>
-					<?php foreach ($topics as $topic): ?>
-					<option value="<?php echo htmlspecialchars($topic['id']); ?>">
-						<?php echo htmlspecialchars($topic['pavadinimas']); ?>
-					</option>
-					<?php endforeach; ?>
-				</select><br><br>
+			<label for="tema">Tema:</label><br>
+			<select id="tema" name="tema" required>
+				<option value="">Pasirinkite temą</option>
+				<?php foreach ($topics as $topic): ?>
+				<option value="<?php echo htmlspecialchars($topic['id']); ?>">
+					<?php echo htmlspecialchars($topic['pavadinimas']); ?>
+				</option>
+				<?php endforeach; ?>
+			</select><br><br>
 
-				<div id="blocks-container">
-					<div class="block">
-						<label for="block-tekstas-1">Tekstas:</label><br>
-						<textarea id="block-tekstas-1" name="blokai[0][tekstas]" rows="4" required></textarea><br><br>
+			<div id="blocks-container">
+				<div class="block">
+					<label for="block-tekstas-1">Tekstas:</label><br>
+					<textarea id="block-tekstas-1" name="blokai[0][tekstas]" rows="4" required></textarea><br><br>
 
-						<button class="submit-btn" type="button" onclick="toggleImageForm(1)">Pridėti paveikslėlį</button><br><br>
+					<button class="submit-btn" type="button" onclick="toggleImageForm(1)">Pridėti paveikslėlį</button><br><br>
 
-						<div id="image-form-1" style="display: none;">
-							<h4>Paveikslėlis (pasirinktinai):</h4>
-							<label for="block-paveikslelis-pavadinimas-1">Pavadinimas:</label><br>
-							<input type="text" id="block-paveikslelis-pavadinimas-1" name="blokai[0][paveikslelis_pavadinimas]"><br><br>
+					<div id="image-form-1" style="display: none;">
+						<h4>Paveikslėlis (pasirinktinai):</h4>
+						<label for="block-paveikslelis-pavadinimas-1">Pavadinimas:</label><br>
+						<input type="text" id="block-paveikslelis-pavadinimas-1" name="blokai[0][paveikslelis_pavadinimas]"><br><br>
 
-							<label for="block-paveikslelis-url-1">URL:</label><br>
-							<input type="text" id="block-paveikslelis-url-1" name="blokai[0][paveikslelis_url]"><br><br>
+						<label for="block-paveikslelis-url-1">URL:</label><br>
+						<input type="text" id="block-paveikslelis-url-1" name="blokai[0][paveikslelis_url]"><br><br>
 
-							<label for="block-paveikslelis-pozicija-1">Pozicija:</label><br>
-							<select id="block-paveikslelis-pozicija-1" name="blokai[0][paveikslelis_pozicija]">
-								<option value="top">Viršus</option>
-								<option value="bottom">Apačia</option>
-								<option value="left">Kairė</option>
-								<option value="right">Dešinė</option>
-							</select><br><br>
-						</div>
+						<label for="block-paveikslelis-pozicija-1">Pozicija:</label><br>
+						<select id="block-paveikslelis-pozicija-1" name="blokai[0][paveikslelis_pozicija]">
+							<option value="top">Viršus</option>
+							<option value="bottom">Apačia</option>
+							<option value="left">Kairė</option>
+							<option value="right">Dešinė</option>
+						</select><br><br>
 					</div>
 				</div>
+			</div>
 
-				<button class="submit-btn" type="button" onclick="addBlock()">Pridėti bloką</button><br><br>
-				<input class="submit-btn" type="submit" value="Pateikti straipsnį">
-			</form>
-		</div>
-	</body>
+			<button class="submit-btn" type="button" onclick="addBlock()">Pridėti bloką</button><br><br>
+			<input class="submit-btn" type="submit" value="Pateikti straipsnį">
+		</form>
+	</div>
+</body>
 
 </html>
