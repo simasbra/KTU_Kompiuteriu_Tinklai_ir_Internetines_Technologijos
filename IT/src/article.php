@@ -5,6 +5,10 @@ $user = "stud";
 $password = "stud";
 $connection = mysqli_connect($server, $user, $password, $db);
 
+if (session_status() == PHP_SESSION_NONE) {
+	session_start();
+}
+
 if (!$connection) {
 	die("Failed to connect to MySQL. Error: " . mysqli_error($connection));
 }
@@ -62,17 +66,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating']) && isset($_S
 	$user_id = $_SESSION['user_id'];
 
 	if ($rating >= 1 && $rating <= 10) {
-		$rating_sql = "INSERT INTO Vertinimas (vertinimas, vartotojas_id, straipsnis_id) VALUES (?, ?, ?)";
-		$rating_stmt = $connection->prepare($rating_sql);
-		$rating_stmt->bind_param("iii", $rating, $user_id, $article_id);
+		$check_rating_sql = "SELECT id FROM Vertinimas WHERE vartotojas_id = ? AND straipsnis_id = ?";
+		$check_stmt = $connection->prepare($check_rating_sql);
+		$check_stmt->bind_param("ii", $user_id, $article_id);
+		$check_stmt->execute();
+		$check_result = $check_stmt->get_result();
 
-		if ($rating_stmt->execute()) {
-			$rating_message = "Jūsų įvertinimas sėkmingai pateiktas!";
+		if ($check_result->num_rows > 0) {
+			$rating_message = "Jūs jau įvertinote šį straipsnį.";
 		} else {
-			$rating_message = "Klaida pateikiant įvertinimą: " . $connection->error;
-		}
+			$rating_sql = "INSERT INTO Vertinimas (vertinimas, vartotojas_id, straipsnis_id) VALUES (?, ?, ?)";
+			$rating_stmt = $connection->prepare($rating_sql);
+			$rating_stmt->bind_param("iii", $rating, $user_id, $article_id);
 
-		$rating_stmt->close();
+			if ($rating_stmt->execute()) {
+				$rating_message = "Jūsų įvertinimas sėkmingai pateiktas!";
+			} else {
+				$rating_message = "Klaida pateikiant įvertinimą: " . $rating_stmt->error;
+			}
+
+			$rating_stmt->close();
+		}
 	} else {
 		$rating_message = "Įvertinimas turi būti tarp 1 ir 10.";
 	}
@@ -185,8 +199,8 @@ $connection->close();
 				</p>
 			<?php endif; ?>
 
-			<?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'Vartotojas'): ?>
-				<form method="post" action="">
+			<?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'Reader'): ?>
+				<form method="post" action="article.php?id=<?php echo $article_id; ?>">
 					<label for="rating">Pasirinkite įvertinimą (1-10):</label>
 					<select name="rating" id="rating" required>
 						<?php for ($i = 10; $i >= 1; $i--): ?>

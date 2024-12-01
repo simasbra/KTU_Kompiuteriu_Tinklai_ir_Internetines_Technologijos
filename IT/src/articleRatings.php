@@ -5,6 +5,10 @@ $user = "stud";
 $password = "stud";
 $connection = mysqli_connect($server, $user, $password, $db);
 
+if (session_status() == PHP_SESSION_NONE) {
+	session_start();
+}
+
 if (!$connection) {
 	die("Prisijungimas prie duomenų bazės nepavyko: " . mysqli_connect_error());
 }

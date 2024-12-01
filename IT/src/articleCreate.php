@@ -43,22 +43,21 @@ if ($topic_result && $topic_result->num_rows > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 	$title = trim($_POST['pavadinimas']);
 	$topic_id = intval($_POST['tema']);
-	$blocks = $_POST['blokai']; // Array with block data
+	$blocks = $_POST['blokai'];
 	$user_id = $_SESSION['user_id'];
 	$creation_date = date('Y-m-d H:i:s');
 
 	if (empty($title) || empty($topic_id) || empty($blocks)) {
 		$message = "Visi laukeliai yra privalomi!";
 	} else {
-		// Insert the article
 		$article_sql = "INSERT INTO Straipsnis (pavadinimas, sukurimo_data, vartotojas_id, tema_id) VALUES (?, ?, ?, ?)";
 		$article_stmt = $connection->prepare($article_sql);
 		$article_stmt->bind_param("ssii", $title, $creation_date, $user_id, $topic_id);
 
 		if ($article_stmt->execute()) {
-			$article_id = $connection->insert_id; // Get inserted article ID
+			$article_id = $connection->insert_id;
+			$message .= "Straipsnis sėkmingai sukurtas!<br>";
 
-			// Process each block
 			if (!empty($blocks) && is_array($blocks)) {
 				foreach ($blocks as $block) {
 					$text = isset($block['tekstas']) ? trim($block['tekstas']) : '';
@@ -86,16 +85,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 					$block_stmt = $connection->prepare($block_sql);
 					$block_stmt->bind_param("sii", $text, $article_id, $image_id);
 
-					if (!$block_stmt->execute()) {
+					if ($block_stmt->execute()) {
+						$message .= "Blokas sėkmingai pridėtas.<br>";
+					} else {
 						$message .= "Klaida įrašant bloką: " . $connection->error . "<br>";
-						continue;
 					}
 				}
 			} else {
 				$message .= "Blokų nėra arba jie netinkamai perduoti.<br>";
 			}
-
-			$message = "Straipsnis sėkmingai sukurtas!";
 		} else {
 			$message = "Klaida įrašant straipsnį: " . $connection->error;
 		}
@@ -210,4 +208,3 @@ $connection->close();
 	</body>
 
 </html>
-
