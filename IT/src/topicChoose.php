@@ -6,8 +6,14 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['user_id'])) {
-	header("Location: login.php");
-	exit();
+	echo "
+		<div style='text-align: center; margin-top: 50px;'>
+			<h2>Neturite prieigos</h2>
+			<p>Šis puslapis yra prieinamas tik registruotiems naudotojams.</p>
+		</div>
+	";
+	echo "<meta http-equiv='refresh' content='3;url=index.php'>";
+	die();
 }
 
 $server = "localhost";

@@ -5,14 +5,13 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'Publisher') {
 	echo "
-	<div style='text-align: center; margin-top: 50px;'>
-	<h2>Neturite prieigos</h2>
-	<p>Šis puslapis yra prieinamas tik rašytojams.</p>
-	</div>
+		<div style='text-align: center; margin-top: 50px;'>
+			<h2>Neturite prieigos</h2>
+			<p>Šis puslapis yra prieinamas tik rašytojams.</p>
+		</div>
 	";
-	sleep(3);
-	header("Location: index.php");
-	exit();
+	echo "<meta http-equiv='refresh' content='3;url=index.php'>";
+	die();
 }
 
 $server = "localhost";

@@ -10,8 +10,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'Publisher') {
 			<p>Šis puslapis yra prieinamas tik rašytojams.</p>
 		</div>
 	";
-	header("Refresh: 3; URL=index.php");
-	exit();
+	echo "<meta http-equiv='refresh' content='3;url=index.php'>";
+	die();
 }
 
 $server = "localhost";

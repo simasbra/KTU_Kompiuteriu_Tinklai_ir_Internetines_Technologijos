@@ -9,6 +9,17 @@ if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 
+if (!isset($_SESSION['user_id'])) {
+	echo "
+		<div style='text-align: center; margin-top: 50px;'>
+			<h2>Neturite prieigos</h2>
+			<p>Šis puslapis yra prieinamas tik registruotiems naudotojams.</p>
+		</div>
+	";
+	echo "<meta http-equiv='refresh' content='3;url=index.php'>";
+	die();
+}
+
 if (!$connection) {
 	die("Prisijungimas prie duomenų bazės nepavyko: " . mysqli_connect_error());
 }

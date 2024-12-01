@@ -10,9 +10,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'Publisher') {
 			<p>Šis puslapis yra prieinamas tik raštojams.</p>
 		</div>
 	";
-	sleep(3);
-	header("Location: index.php");
-	exit();
+	echo "<meta http-equiv='refresh' content='3;url=index.php'>";
+	die();
 }
 
 $user_id = $_SESSION['user_id'];

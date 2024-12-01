@@ -11,9 +11,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] != 'Administrator') {
 			<p>Šis puslapis yra prieinamas tik administratoriams.</p>
 		</div>
 	";
-	sleep(3);
-	header("Location: index.php");
-	exit();
+	echo "<meta http-equiv='refresh' content='3;url=index.php'>";
+	die();
 }
 
 $server = "localhost";
