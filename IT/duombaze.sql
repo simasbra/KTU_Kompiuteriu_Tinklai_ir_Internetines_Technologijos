@@ -1,5 +1,4 @@
 drop database if exists IT;
-create database IT;
 use IT;
 
 create table Paskyros_tipas (
@@ -89,13 +88,16 @@ insert into Paskyros_tipas (pavadinimas) values
 	("Publisher"),
 	("Administrator");
 
-
 -- dump
+
+-- Vartotojas
 
 INSERT INTO `Vartotojas` (`id`, `prisijungimo_vardas`, `slaptazodis`, `vardas`, `pavarde`, `paskyros_tipas_id`) VALUES
 (1, 'rasytojas', '$2y$10$8FbuaePSEtJNQl72EK1uFOlOAiz8Oar.5vnrffgRzx5JEW2h/9wcm', 'Simas', 'Rasytojas', 2),
 (2, 'admin', '$2y$10$OQRCYeBplJUfPcgOWqMqk.ffkN.e02GbOsavpskXlcIcR5.9EqF9y', 'Simas', 'Administratorius', 3),
 (3, 'skaitytojas', '$2y$10$AZxuDHhJOjtYGoT3a.0JSud3UnoQg2BskH/6Z6LsEpMp5Dcw6FJ0W', 'Simas', 'Skaitytojas', 1);
+
+-- Tema
 
 INSERT INTO `Tema` (`id`, `pavadinimas`, `vartotojas_id`) VALUES
 (1, 'Sveikas gyvenimas', 2),
@@ -106,9 +108,34 @@ INSERT INTO `Tema` (`id`, `pavadinimas`, `vartotojas_id`) VALUES
 (6, 'Juokeliai', 2),
 (7, 'Geras miegas', 2);
 
+-- Vartotojas Tema
+
+INSERT INTO `Vartotojas_Tema` (`id`, `vartotojas_id`, `tema_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 1, 4),
+(5, 3, 1);
+
+-- Straipsnis
+
 INSERT INTO `Straipsnis` (`id`, `pavadinimas`, `sukurimo_data`, `vartotojas_id`, `tema_id`) VALUES
-(1, 'Sveikas gyvenimas misko apsuptyje', '2024-11-28 01:04:27', 1, 1);
+(1, 'Sveikas gyvenimas misko apsuptyje', '2024-11-28 01:04:27', 1, 1),
+(2, 'Kodel miegoti yra svarbu?', '2024-12-28 01:47:48', 1, 7);
+
+-- Paveikslelis
+
+INSERT INTO `Paveikslelis` (`id`, `pavadinimas`, `pozicija`, `url`) VALUES
+(1, 'Lova', 'left', 'https://www.premierinnbed.co.uk/media/catalog/product/cache/215e62282d4b4b68400b8137e0654108/p/r/premierinn_mattress2.0_lilith_charcoal_gbtb_lifestyle_-_demand_gen_square.jpg'),
+(2, 'Lova2', 'right', 'https://www.premierinnbed.co.uk/media/catalog/product/cache/215e62282d4b4b68400b8137e0654108/p/r/premierinn_mattress2.0_lilith_charcoal_gbtb_lifestyle_-_demand_gen_square.jpg');
+
+-- Straipsnis blokas
 
 INSERT INTO `Straipsnis_Blokas` (`id`, `tekstas`, `straipsnis_id`, `paveikslelis_id`) VALUES
-(2, 'Labai idomus straipsnis apie gyvenima misko apsuktyje', 1, NULL);
+(1, 'Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje. Labai idomus straipsnis apie gyvenima misko apsuktyje.', 1, NULL),
+(2, 'Labai idomus straipsnis apie gyvenima misko apsuktyje pabaiga.', 1, NULL),
+(3, 'Miegoti yra svarbu', 2, 1),
+(4, 'Miegoti svarbu', 2, NULL),
+(5, 'Miegoti yra labai svarbu', 2, 2);
 
+-- Vertinimas

@@ -35,16 +35,15 @@ $sql = "SELECT * FROM Tema";
 $topics_result = $connection->query($sql);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	// Delete user old topics
+	$delete_sql = "DELETE FROM Vartotojas_Tema WHERE vartotojas_id = ?";
+	$delete_stmt = $connection->prepare($delete_sql);
+	$delete_stmt->bind_param("i", $user_id);
+	$delete_stmt->execute();
+	$delete_stmt->close();
+
 	if (isset($_POST['topics'])) {
 		$selected_topics = $_POST['topics'];
-
-		// Delete user old topics
-		$delete_sql = "DELETE FROM Vartotojas_Tema WHERE vartotojas_id = ?";
-		$delete_stmt = $connection->prepare($delete_sql);
-		$delete_stmt->bind_param("i", $user_id);
-		$delete_stmt->execute();
-		$delete_stmt->close();
-
 		// Save user topics
 		foreach ($selected_topics as $topic_id) {
 		$insert_sql = "INSERT INTO Vartotojas_Tema (vartotojas_id, tema_id) VALUES (?, ?)";
@@ -55,8 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		}
 
 		$message = "Temos buvo sėkmingai pasirinktos.";
-	} else {
-		$message = "Pasirinkite bent vieną temą.";
 	}
 }
 

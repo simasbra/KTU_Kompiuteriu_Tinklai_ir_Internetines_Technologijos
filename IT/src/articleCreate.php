@@ -1,5 +1,4 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 
@@ -59,33 +58,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 			$article_id = $connection->insert_id; // Get inserted article ID
 
 			// Process each block
-			foreach ($blocks as $block) {
-				$text = trim($block['tekstas']);
-				$image_id = null;
+			if (!empty($blocks) && is_array($blocks)) {
+				foreach ($blocks as $block) {
+					$text = isset($block['tekstas']) ? trim($block['tekstas']) : '';
+					$image_id = null;
 
-				// Insert image if provided
-				if (!empty($block['paveikslelis_url']) && !empty($block['paveikslelis_pavadinimas']) && !empty($block['paveikslelis_pozicija'])) {
-					$image_sql = "INSERT INTO Paveikslelis (pavadinimas, url, pozicija) VALUES (?, ?, ?)";
-					$image_stmt = $connection->prepare($image_sql);
-					$image_stmt->bind_param("sss", $block['paveikslelis_pavadinimas'], $block['paveikslelis_url'], $block['paveikslelis_pozicija']);
+					if (empty($text)) {
+						$message .= "Blokas praleistas dėl trūkstamo teksto.<br>";
+						continue;
+					}
 
-					if ($image_stmt->execute()) {
-						$image_id = $connection->insert_id; // Get inserted image ID
-					} else {
-						$message = "Klaida įrašant paveikslėlį: " . $connection->error;
-						continue; // Skip this block and proceed with others
+					if (!empty($block['paveikslelis_url']) && !empty($block['paveikslelis_pavadinimas']) && !empty($block['paveikslelis_pozicija'])) {
+						$image_sql = "INSERT INTO Paveikslelis (pavadinimas, url, pozicija) VALUES (?, ?, ?)";
+						$image_stmt = $connection->prepare($image_sql);
+						$image_stmt->bind_param("sss", $block['paveikslelis_pavadinimas'], $block['paveikslelis_url'], $block['paveikslelis_pozicija']);
+
+						if ($image_stmt->execute()) {
+							$image_id = $connection->insert_id;
+						} else {
+							$message .= "Klaida įrašant paveikslėlį: " . $connection->error . "<br>";
+							continue;
+						}
+					}
+
+					$block_sql = "INSERT INTO Straipsnis_Blokas (tekstas, straipsnis_id, paveikslelis_id) VALUES (?, ?, ?)";
+					$block_stmt = $connection->prepare($block_sql);
+					$block_stmt->bind_param("sii", $text, $article_id, $image_id);
+
+					if (!$block_stmt->execute()) {
+						$message .= "Klaida įrašant bloką: " . $connection->error . "<br>";
+						continue;
 					}
 				}
-
-				// Insert block
-				$block_sql = "INSERT INTO Straipsnis_Blokas (tekstas, straipsnis_id, paveikslelis_id) VALUES (?, ?, ?)";
-				$block_stmt = $connection->prepare($block_sql);
-				$block_stmt->bind_param("sii", $text, $article_id, $image_id);
-
-				if (!$block_stmt->execute()) {
-					$message = "Klaida įrašant bloką: " . $connection->error;
-					continue; // Skip this block and proceed with others
-				}
+			} else {
+				$message .= "Blokų nėra arba jie netinkamai perduoti.<br>";
 			}
 
 			$message = "Straipsnis sėkmingai sukurtas!";
@@ -108,7 +114,7 @@ $connection->close();
 
 	<body>
 		<script>
-		let blockCounter = 1;
+		let blockCounter = 2;
 
 		function addBlock() {
 			const container = document.getElementById('blocks-container');
