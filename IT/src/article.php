@@ -64,6 +64,7 @@ while ($row = $blocks_result->fetch_assoc()) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating']) && isset($_SESSION['user_id'])) {
 	$rating = intval($_POST['rating']);
 	$user_id = $_SESSION['user_id'];
+	$creation_date = date('Y-m-d H:i:s');
 
 	if ($rating >= 1 && $rating <= 10) {
 		$check_rating_sql = "SELECT id FROM Vertinimas WHERE vartotojas_id = ? AND straipsnis_id = ?";
@@ -75,9 +76,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['rating']) && isset($_S
 		if ($check_result->num_rows > 0) {
 			$rating_message = "Jūs jau įvertinote šį straipsnį.";
 		} else {
-			$rating_sql = "INSERT INTO Vertinimas (vertinimas, vartotojas_id, straipsnis_id) VALUES (?, ?, ?)";
+			$rating_sql = "INSERT INTO Vertinimas (vertinimas, vartotojas_id, straipsnis_id, sukurimo_data) VALUES (?, ?, ?, ?)";
 			$rating_stmt = $connection->prepare($rating_sql);
-			$rating_stmt->bind_param("iii", $rating, $user_id, $article_id);
+			$rating_stmt->bind_param("iiis", $rating, $user_id, $article_id, $creation_date);
 
 			if ($rating_stmt->execute()) {
 				$rating_message = "Jūsų įvertinimas sėkmingai pateiktas!";
