@@ -55,7 +55,7 @@ create table Straipsnis (
 create table Paveikslelis (
 	id int not null auto_increment,
 	pavadinimas varchar(255) not null,
-	pozicija enum("left", "right", "down", "up") default "down" not null,
+	pozicija enum("left", "right", "bottom", "top") default "down" not null,
 	url text not null,
 
 	primary key (id)
@@ -116,19 +116,22 @@ INSERT INTO `Vartotojas_Tema` (`id`, `vartotojas_id`, `tema_id`) VALUES
 (2, 1, 2),
 (3, 1, 3),
 (4, 1, 4),
-(5, 3, 1);
+(6, 3, 1),
+(7, 3, 2);
 
 -- Straipsnis
 
 INSERT INTO `Straipsnis` (`id`, `pavadinimas`, `sukurimo_data`, `vartotojas_id`, `tema_id`) VALUES
 (1, 'Sveikas gyvenimas misko apsuptyje', '2024-11-28 01:04:27', 1, 1),
-(2, 'Kodel miegoti yra svarbu?', '2024-12-28 01:47:48', 1, 7);
+(2, 'Kodel miegoti yra svarbu?', '2024-12-28 01:47:48', 1, 7),
+(3, 'Koki kompiuteri yra geriausia pirkti?', '2024-12-01 11:33:34', 1, 4);
 
 -- Paveikslelis
 
 INSERT INTO `Paveikslelis` (`id`, `pavadinimas`, `pozicija`, `url`) VALUES
 (1, 'Lova', 'left', 'https://www.premierinnbed.co.uk/media/catalog/product/cache/215e62282d4b4b68400b8137e0654108/p/r/premierinn_mattress2.0_lilith_charcoal_gbtb_lifestyle_-_demand_gen_square.jpg'),
-(2, 'Lova2', 'right', 'https://www.premierinnbed.co.uk/media/catalog/product/cache/215e62282d4b4b68400b8137e0654108/p/r/premierinn_mattress2.0_lilith_charcoal_gbtb_lifestyle_-_demand_gen_square.jpg');
+(2, 'Lova2', 'right', 'https://www.premierinnbed.co.uk/media/catalog/product/cache/215e62282d4b4b68400b8137e0654108/p/r/premierinn_mattress2.0_lilith_charcoal_gbtb_lifestyle_-_demand_gen_square.jpg'),
+(3, 'Senas kompiuteris', 'left', 'https://www.startpage.com/av/proxy-image?piurl=http%3A%2F%2Fwww.vintageisthenewold.com%2Fwp-content%2Fuploads%2F2017%2F08%2Fimbpc.jpg&sp=1733045479Tba613dc2d27484b1fa9d9a26b892d5bcd4678e0cfbed2c61fa38d2469eb6124d');
 
 -- Straipsnis blokas
 
@@ -137,7 +140,8 @@ INSERT INTO `Straipsnis_Blokas` (`id`, `tekstas`, `straipsnis_id`, `paveikslelis
 (2, 'Labai idomus straipsnis apie gyvenima misko apsuktyje pabaiga.', 1, NULL),
 (3, 'Miegoti yra svarbu', 2, 1),
 (4, 'Miegoti svarbu', 2, NULL),
-(5, 'Miegoti yra labai svarbu', 2, 2);
+(5, 'Miegoti yra labai svarbu', 2, 2),
+(6, 'Kompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?\r\nKompiuteriai yra labai svarbus musu gyvenime, todel daznai kyla klausimas koki kompiuteri yra geriausia pirkti?', 3, 3);
 
 -- Vertinimas
 
