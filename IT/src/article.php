@@ -113,88 +113,90 @@ $connection->close();
 <body>
 	<?php include 'navbar.php'; ?>
 
-	<div>
-		<center>
-			<h1>
-				<?php echo htmlspecialchars($article['pavadinimas']); ?>
-			</h1>
-			<h3>Tema: &nbsp;
-				<?php echo htmlspecialchars($article['tema']); ?>
-			</h3>
-			<p>Autorius: &nbsp;
-				<?php echo htmlspecialchars($article['vardas'] . ' ' . $article['pavarde']); ?>
-			</p>
-			<p>Sukurimo data: &nbsp;
-				<?php echo htmlspecialchars($article['sukurimo_data']); ?>
-			</p>
-		</center>
-	</div>
-
-	<div style="padding: 20px; width: 90%;">
-		<?php foreach ($blocks as $block): ?>
-			<div style="margin-bottom: 20px;">
-				<?php if (!empty($block['url'])): ?>
-					<?php if ($block['pozicija'] === 'top'): ?>
-						<div class="image-top">
-						<img
-							src="<?php echo htmlspecialchars($block['url']); ?>"
-							alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
-							style="max-width: 300px; max-height: 300px;">
-						</div>
-					<?php elseif ($block['pozicija'] === 'bottom'): ?>
-						<div class="image-bottom">
-						<img
-							src="<?php echo htmlspecialchars($block['url']); ?>"
-							alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
-							style="max-width: 300px; max-height: 300px;">
-						</div>
-					<?php elseif ($block['pozicija'] === 'left'): ?>
-						<div class="image-left" style="float: left; margin-right: 10px;">
-						<img
-							src="<?php echo htmlspecialchars($block['url']); ?>"
-							alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
-							style="max-width: 300px; max-height: 300px;">
-						</div>
-					<?php elseif ($block['pozicija'] === 'right'): ?>
-						<div class="image-right" style="float: right; margin-left: 10px;">
-						<img
-							src="<?php echo htmlspecialchars($block['url']); ?>"
-							alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
-							style="max-width: 300px; max-height: 300px;">
-						</div>
-					<?php endif; ?>
-				<?php endif; ?>
-				<p style="text-align: center;">
-					<?php echo nl2br(htmlspecialchars($block['tekstas'])); ?>
+	<div style="margin: 0 auto; max-width: 800px; padding: 20px;">
+		<div>
+			<center>
+				<h1>
+					<?php echo htmlspecialchars($article['pavadinimas']); ?>
+				</h1>
+				<h3>Tema: &nbsp;
+					<?php echo htmlspecialchars($article['tema']); ?>
+				</h3>
+				<p>Autorius: &nbsp;
+					<?php echo htmlspecialchars($article['vardas'] . ' ' . $article['pavarde']); ?>
 				</p>
-				<div style="clear: both;"></div>
-			</div>
-		<?php endforeach; ?>
-	</div>
+				<p>Sukurimo data: &nbsp;
+					<?php echo htmlspecialchars($article['sukurimo_data']); ?>
+				</p>
+			</center>
+		</div>
 
-	<div class="rating-container" style="padding: 20px;">
-		<h3>Įvertinti straipsnį</h3>
-			<p>Vidutinis įvertinimas:
-				<?php echo $avg_rating !== 0 ? round($avg_rating, 2) : "Nėra įvertinimų"; ?>
-			</p>
+		<div style="padding: 20px; width: 90%;">
+			<?php foreach ($blocks as $block): ?>
+				<div style="margin-bottom: 20px;">
+					<?php if (!empty($block['url'])): ?>
+						<?php if ($block['pozicija'] === 'top'): ?>
+							<div class="image-top">
+							<img
+								src="<?php echo htmlspecialchars($block['url']); ?>"
+								alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
+								style="max-width: 300px; max-height: 300px;">
+							</div>
+						<?php elseif ($block['pozicija'] === 'bottom'): ?>
+							<div class="image-bottom">
+							<img
+								src="<?php echo htmlspecialchars($block['url']); ?>"
+								alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
+								style="max-width: 300px; max-height: 300px;">
+							</div>
+						<?php elseif ($block['pozicija'] === 'left'): ?>
+							<div class="image-left" style="float: left; margin-right: 10px;">
+							<img
+								src="<?php echo htmlspecialchars($block['url']); ?>"
+								alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
+								style="max-width: 300px; max-height: 300px;">
+							</div>
+						<?php elseif ($block['pozicija'] === 'right'): ?>
+							<div class="image-right" style="float: right; margin-left: 10px;">
+							<img
+								src="<?php echo htmlspecialchars($block['url']); ?>"
+								alt="<?php echo htmlspecialchars($block['pavadinimas']); ?>"
+								style="max-width: 300px; max-height: 300px;">
+							</div>
+						<?php endif; ?>
+					<?php endif; ?>
+					<p style="text-align: center;">
+						<?php echo nl2br(htmlspecialchars($block['tekstas'])); ?>
+					</p>
+					<div style="clear: both;"></div>
+				</div>
+			<?php endforeach; ?>
+		</div>
 
-		<?php if (!empty($rating_message)): ?>
-			<p>
-				<?php echo htmlspecialchars($rating_message); ?>
-			</p>
-		<?php endif; ?>
+		<div class="rating-container" style="padding: 20px;">
+			<h3>Įvertinti straipsnį</h3>
+				<p>Vidutinis įvertinimas:
+					<?php echo $avg_rating !== 0 ? round($avg_rating, 2) : "Nėra įvertinimų"; ?>
+				</p>
 
-		<?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'Vartotojas'): ?>
-			<form method="post" action="">
-				<label for="rating">Pasirinkite įvertinimą (1-10):</label>
-				<select name="rating" id="rating" required>
-					<?php for ($i = 10; $i >= 1; $i--): ?>
-						<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-					<?php endfor; ?>
-				</select>
-				<input type="submit" value="Pateikti įvertinimą">
-			</form>
-		<?php endif; ?>
+			<?php if (!empty($rating_message)): ?>
+				<p>
+					<?php echo htmlspecialchars($rating_message); ?>
+				</p>
+			<?php endif; ?>
+
+			<?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] == 'Vartotojas'): ?>
+				<form method="post" action="">
+					<label for="rating">Pasirinkite įvertinimą (1-10):</label>
+					<select name="rating" id="rating" required>
+						<?php for ($i = 10; $i >= 1; $i--): ?>
+							<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+						<?php endfor; ?>
+					</select>
+					<input type="submit" value="Pateikti įvertinimą">
+				</form>
+			<?php endif; ?>
+		</div>
 	</div>
 </body>
 
