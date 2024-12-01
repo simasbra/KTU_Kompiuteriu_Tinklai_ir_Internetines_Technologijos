@@ -55,7 +55,7 @@ create table Straipsnis (
 create table Paveikslelis (
 	id int not null auto_increment,
 	pavadinimas varchar(255) not null,
-	pozicija enum("left", "right", "bottom", "top") default "down" not null,
+	pozicija enum("left", "right", "bottom", "top") default "bottom" not null,
 	url text not null,
 
 	primary key (id)
