@@ -56,7 +56,7 @@ create table Paveikslelis (
 	id int not null auto_increment,
 	pavadinimas varchar(255) not null,
 	pozicija enum("left", "right", "down", "up") default "down" not null,
-	url varchar(2047) not null,
+	url text not null,
 
 	primary key (id)
 );
@@ -140,3 +140,8 @@ INSERT INTO `Straipsnis_Blokas` (`id`, `tekstas`, `straipsnis_id`, `paveikslelis
 (5, 'Miegoti yra labai svarbu', 2, 2);
 
 -- Vertinimas
+
+INSERT INTO `Vertinimas` (`id`, `vertinimas`, `sukurimo_data`, `vartotojas_id`, `straipsnis_id`) VALUES
+(1, 8, '2024-11-30 10:15:00', 3, 1),
+(2, 9, '2024-11-30 11:20:00', 3, 1),
+(3, 7, '2024-11-30 12:30:00', 3, 2);
