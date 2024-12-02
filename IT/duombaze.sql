@@ -66,6 +66,7 @@ create table Straipsnis_Blokas (
 	tekstas text,
 	straipsnis_id int not null,
 	paveikslelis_id int,
+	pozicija enum("left", "right", "center", "justify") default "left" not null,
 
 	primary key (id),
 	foreign key (straipsnis_id) references Straipsnis(id),
