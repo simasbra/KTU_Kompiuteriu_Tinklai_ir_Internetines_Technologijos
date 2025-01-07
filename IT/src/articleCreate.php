@@ -80,9 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
 						}
 					}
 
-					$block_sql = "INSERT INTO Straipsnis_Blokas (tekstas, straipsnis_id, paveikslelis_id) VALUES (?, ?, ?)";
+					$block_sql = "INSERT INTO Straipsnis_Blokas (tekstas, straipsnis_id, paveikslelis_id, pozicija) VALUES (?, ?, ?, ?)";
 					$block_stmt = $connection->prepare($block_sql);
-					$block_stmt->bind_param("sii", $text, $article_id, $image_id);
+					$block_stmt->bind_param("siis", $text, $article_id, $image_id, $block['pozicija']);
 
 					if ($block_stmt->execute()) {
 						$message .= "Blokas sėkmingai pridėtas.";
@@ -121,9 +121,16 @@ $connection->close();
 			newBlock.innerHTML = `
 				<label for="block-tekstas-${blockCounter}">Tekstas:</label><br>
 				<textarea id="block-tekstas-${blockCounter}" name="blokai[${blockCounter}][tekstas]" rows="4" required></textarea><br><br>
+				<label for="block-pozicija-${blockCounter}">Pozicija:</label><br>
+				<select id="block-pozicija-${blockCounter}" name="blokai[${blockCounter}][pozicija]">
+					<option value="left">Kairė</option>
+					<option value="right">Dešinė</option>
+					<option value="center">Centras</option>
+					<option value="justify">Išlygintas</option>
+				</select><br><br>
 
 				<button class="submit-btn" type="button" onclick="toggleImageForm(${blockCounter})">Pridėti paveikslėlį</button><br><br>
-
+				
 				<div id="image-form-${blockCounter}" style="display: none;">
 					<h4>Paveikslėlis (pasirinktinai):</h4>
 					<label for="block-paveikslelis-pavadinimas-${blockCounter}">Pavadinimas:</label><br>
@@ -178,7 +185,13 @@ $connection->close();
 				<div class="block">
 					<label for="block-tekstas-1">Tekstas:</label><br>
 					<textarea id="block-tekstas-1" name="blokai[0][tekstas]" rows="4" required></textarea><br><br>
-
+					<label for="block-pozicija-1">Pozicija:</label><br>
+					<select id="block-pozicija-1" name="blokai[0][pozicija]">
+						<option value="left">Kairė</option>
+						<option value="right">Dešinė</option>
+						<option value="center">Centras</option>
+						<option value="justify">Išlygintas</option>
+					</select><br><br>
 					<button class="submit-btn" type="button" onclick="toggleImageForm(1)">Pridėti paveikslėlį</button><br><br>
 
 					<div id="image-form-1" style="display: none;">

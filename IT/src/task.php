@@ -13,10 +13,6 @@ if (!isset($_SESSION['user_id'])) {
 	echo "<meta http-equiv='refresh' content='3;url=login.php'>";
 	die();
 }
-
-if (!$connection) {
-	die("Php is too stoopid to login to MySQL. Error:" . mysqli_error($connection));
-}
 ?>
 
 <!DOCTYPE html>

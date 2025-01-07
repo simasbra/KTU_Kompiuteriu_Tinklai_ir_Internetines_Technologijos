@@ -53,6 +53,7 @@ if (!$article) {
 $blocks_sql = "
 	SELECT 
 		Straipsnis_Blokas.tekstas,
+		Straipsnis_Blokas.pozicija as block_pozicija,
 		Paveikslelis.url,
 		Paveikslelis.pozicija,
 		Paveikslelis.pavadinimas
@@ -191,9 +192,10 @@ $connection->close();
 							</div>
 						<?php endif; ?>
 					<?php endif; ?>
-					<p>
+					<p style="text-align: <?php echo htmlspecialchars($block['block_pozicija']) ?>">
 						<?php echo nl2br(htmlspecialchars($block['tekstas'])); ?>
 					</p>
+
 					<div style="clear: both;"></div>
 				</div>
 			<?php endforeach; ?>
